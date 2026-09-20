@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% load product_extras %}
+{% block title %}{{ product.name }} — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{{ product.name }} — {{ product.spec }}. ₦{{ product.price|floatformat:0 }} at {{ SITE_NAME }}, Ugbokolo.{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_title %}{{ product.name }} — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}{{ product.name }}{% if product.spec %} — {{ product.spec }}{% endif %}. ₦{{ product.price|floatformat:0 }} at {{ SITE_NAME }}, Ugbokolo.{% endblock %}
+{# The product's own photo when it has one, the shop logo when it doesn't. #}
+{% block og_image %}{% if product.image %}{{ product.image.url|absolute_uri:request }}{% else %}{{ default_og_image }}{% endif %}{% endblock %}
+{% block content %}
+<section class="section detail-section">
+  <div class="wrap">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{% url 'shop:shop' %}">Shop</a></li>
+        <li><a href="{% url 'shop:shop' %}?category={{ product.category }}">{{ product.get_category_display }}</a></li>
+        <li><span aria-current="page">{{ product.name }}</span></li>
+      </ol>
+    </nav>
+
+    <div class="detail-grid">
+      <div class="detail-media-col">
+        <figure class="detail-media-figure">
+          <div class="p-media detail-media" id="detailMedia">
+            <span class="cond-badge cond-{{ product.condition }}">{{ product.get_condition_display }}</span>
+            {% if product.discount_percent %}<span class="discount-badge">-{{ product.discount_percent }}%</span>{% endif %}
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" decoding="async">
+            {% else %}
+            <span class="detail-media-emoji" aria-hidden="true">{{ product.emoji }}</span>
+            {% endif %}
+          </div>
+          <figcaption class="zoom-hint">Hover the image to zoom</figcaption>
+        </figure>
+      </div>
+
+      <div class="detail-info-col">
+        <p class="section-eyebrow">{{ product.get_category_display }}</p>
+        <h1 class="detail-title">{{ product.name }}</h1>
+
+        {% if product.spec %}<p class="detail-spec">{{ product.spec }}</p>{% endif %}
+
+        <div class="detail-rating-row">
+          <span class="stars" style="--pct:{{ product.rating_percent }}%" aria-hidden="true"></span>
+          {% if product.review_count %}
+          <a class="detail-rating-link" href="#reviews">{{ product.average_rating|floatformat:1 }} out of 5 · {{ product.review_count }} review{{ product.review_count|pluralize }}</a>
+          {% else %}
+          <a class="detail-rating-link" href="#reviews">No reviews yet — be the first</a>
+          {% endif %}
+        </div>
+
+        <ul class="detail-meta">
+          <li class="meta-chip cond-{{ product.condition }}">
+            <span class="meta-chip-key">Condition</span>
+            <span class="meta-chip-value">{{ product.get_condition_display }}</span>
+          </li>
+          <li class="stock-pill stock-{{ product.stock_status }}">
+            <span class="led {{ product.stock_status }}" aria-hidden="true"></span>
+            <span class="stock-pill-text">
+              <b>{{ product.get_stock_status_display }}</b>
+              <span class="stock-pill-detail">
+                {% if not product.is_in_stock %}Message us to ask about restock
+                {% elif product.stock_quantity == 1 %}Only 1 left
+                {% else %}{{ product.stock_quantity }} available{% endif %}
+              </span>
+            </span>
+          </li>
+        </ul>
+
+        <div class="price-hero">
+          <span class="price-now">₦{{ product.price|floatformat:0 }}</span>
+          {% if product.discount_percent %}
+          <span class="price-was">₦{{ product.compare_at_price|floatformat:0 }}</span>
+          <span class="discount-badge discount-badge-inline">Save {{ product.discount_percent }}%</span>
+          {% endif %}
+        </div>
+        <p class="price-note">Includes our 7-day fault warranty.</p>
+
+        {% if product.is_in_stock %}
+        <form method="post" action="{% url 'shop:cart_add' product.id %}" class="add-to-cart-form detail-buy-form" id="mainAddForm">
+          {% csrf_token %}
+          <div class="qty-field">
+            <label for="qty">Quantity</label>
+            <div class="qty-control">
+              <button type="button" class="qty-step" data-qty-step="-1" aria-label="Decrease quantity">−</button>
+              <input type="number" id="qty" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}" step="1" inputmode="numeric" aria-describedby="qtyHelp">
+              <button type="button" class="qty-step" data-qty-step="1" aria-label="Increase quantity">+</button>
+            </div>
+            <p class="qty-help" id="qtyHelp">Up to {{ product.stock_quantity }} available.</p>
+          </div>
+          <button class="btn btn-primary detail-add-btn" type="submit">Add to cart →</button>
+        </form>
+        {% else %}
+        <div class="detail-buy-form detail-buy-form-out" id="mainAddForm">
+          <button class="btn btn-ghost" type="button" disabled aria-disabled="true">Out of stock</button>
+          <p class="out-of-stock-note">
+            This item has sold out.
+            <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hi%20{{ SITE_NAME }}!%20Please%20let%20me%20know%20when%20the%20{{ product.name|urlencode }}%20is%20back%20in%20stock." target="_blank" rel="noopener">Ask us when it's back →</a>
+          </p>
+        </div>
+        {% endif %}
+
+        <div class="detail-secondary-actions">
+          <button class="secondary-action-btn {% if in_wishlist %}active{% endif %}" data-wishlist-toggle data-url="{% url 'shop:wishlist_toggle' product.id %}">
+            ♥ {% if in_wishlist %}In wishlist{% else %}Add to wishlist{% endif %}
+          </button>
+          <button class="secondary-action-btn compare-link" data-compare-toggle data-url="{% url 'shop:compare_toggle' product.id %}">
+            ⇄ {% if in_compare %}In comparison{% else %}Add to compare{% endif %}
+          </button>
+        </div>
+
+        <p class="detail-whatsapp">
+          Prefer to order directly? <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hi%20{{ SITE_NAME }}!%20I'm%20interested%20in%20the%20{{ product.name|urlencode }}." target="_blank" rel="noopener">Ask about this on WhatsApp →</a>
+        </p>
+      </div>
+    </div>
+
+    {% if product.is_in_stock %}
+    <div class="sticky-add-bar" id="stickyAddBar">
+      <div class="sticky-add-inner">
+        <div class="sticky-add-info">
+          {% if product.image %}<img src="{{ product.image.url }}" alt="" decoding="async">{% else %}<span aria-hidden="true">{{ product.emoji }}</span>{% endif %}
+          <div><b>{{ product.name }}</b><span>₦{{ product.price|floatformat:0 }}</span></div>
+        </div>
+        <form method="post" action="{% url 'shop:cart_add' product.id %}" class="add-to-cart-form">
+          {% csrf_token %}
+          <button class="btn btn-primary" type="submit">Add to cart →</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+    {% with spec_list=product.spec|spec_parts %}
+    <section class="detail-block" aria-labelledby="specsHeading">
+      <div class="detail-block-head">
+        <h2 class="detail-block-title" id="specsHeading">Key specifications</h2>
+      </div>
+
+      {% if spec_list %}
+      <ul class="spec-list">
+        {% for part in spec_list %}<li class="spec-item">{{ part }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      <dl class="fact-list">
+        <div class="fact-item"><dt>Category</dt><dd>{{ product.get_category_display }}</dd></div>
+        <div class="fact-item"><dt>Condition</dt><dd>{{ product.get_condition_display }}</dd></div>
+        <div class="fact-item"><dt>Availability</dt><dd>{{ product.get_stock_status_display }}{% if product.is_in_stock %} · {{ product.stock_quantity }} in stock{% endif %}</dd></div>
+      </dl>
+    </section>
+    {% endwith %}
+
+    <section class="detail-block" aria-labelledby="buyingHeading">
+      <div class="detail-block-head">
+        <h2 class="detail-block-title" id="buyingHeading">Warranty, delivery &amp; returns</h2>
+      </div>
+      <div class="info-grid">
+        <article class="info-card">
+          <h3 class="info-card-title"><span class="info-icon" aria-hidden="true">🛡️</span> Warranty</h3>
+          <p>{% if product.condition == 'new' %}Manufacturer warranty applies where available, plus our 7-day fault warranty.{% else %}Covered by our 7-day fault warranty from date of purchase.{% endif %}</p>
+        </article>
+        <article class="info-card">
+          <h3 class="info-card-title"><span class="info-icon" aria-hidden="true">📦</span> What's in the box</h3>
+          <p>Device, original accessories where included, and your receipt/ticket. Ask us if you need specifics for this item.</p>
+        </article>
+        <article class="info-card">
+          <h3 class="info-card-title"><span class="info-icon" aria-hidden="true">🚚</span> Delivery</h3>
+          <p>Pickup in Ugbokolo, or nationwide delivery — arranged after checkout.</p>
+        </article>
+        <article class="info-card">
+          <h3 class="info-card-title"><span class="info-icon" aria-hidden="true">↩️</span> Returns</h3>
+          <p>Faulty items can be returned within 7 days of purchase for repair, replacement, or refund.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-block" id="reviews" aria-labelledby="reviewsHeading">
+      <div class="detail-block-head">
+        <h2 class="detail-block-title" id="reviewsHeading">Customer reviews{% if product.review_count %} ({{ product.review_count }}){% endif %}</h2>
+      </div>
+
+      {% if reviews %}
+      <div class="reviews-summary">
+        <div class="reviews-score">
+          <span class="reviews-average">{{ product.average_rating|floatformat:1 }}</span>
+          <span class="stars" style="--pct:{{ product.rating_percent }}%" aria-hidden="true"></span>
+          <span class="reviews-count">Based on {{ product.review_count }} review{{ product.review_count|pluralize }}</span>
+        </div>
+        <ul class="reviews-breakdown">
+          {% for row in reviews|rating_breakdown %}
+          <li class="reviews-bar">
+            <span class="reviews-bar-label">{{ row.stars }} star</span>
+            <span class="reviews-bar-track" aria-hidden="true"><span class="reviews-bar-fill" style="width:{{ row.percent }}%"></span></span>
+            <span class="reviews-bar-count">{{ row.count }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="review-list">
+        {% for r in reviews %}
+        <article class="review-card">
+          <div class="review-stars" role="img" aria-label="Rated {{ r.rating }} out of 5">
+            <span aria-hidden="true">{% for i in "12345" %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+          </div>
+          {% if r.title %}<h3 class="review-title">{{ r.title }}</h3>{% endif %}
+          {% if r.body %}<p class="review-body">{{ r.body }}</p>{% endif %}
+          <p class="review-meta">{{ r.reviewer_name }}{% if r.verified_purchase %} <span class="verified-badge">✓ Verified purchase</span>{% endif %} · {{ r.created_at|date:"d M Y" }}</p>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="reviews-empty">No reviews yet for this product. If you've bought it, your review would help the next person.</p>
+      {% endif %}
+
+      <div class="panel-box review-form-box">
+        <h3 class="review-form-title" id="writeReviewHeading">Write a review</h3>
+        <p class="review-form-note" id="writeReviewNote">Reviews are checked before they go live.</p>
+        <form method="post" aria-labelledby="writeReviewHeading">
+          {% csrf_token %}
+          <div class="field">
+            <label for="{{ review_form.reviewer_name.id_for_label }}">Your name</label>
+            {{ review_form.reviewer_name }}
+            {{ review_form.reviewer_name.errors }}
+          </div>
+          <fieldset class="field rating-field">
+            <legend>Rating</legend>
+            <div class="rating-choice">
+              {% for radio in review_form.rating %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}
+            </div>
+            {{ review_form.rating.errors }}
+          </fieldset>
+          <div class="field">
+            <label for="{{ review_form.title.id_for_label }}">{{ review_form.title.label }}</label>
+            {{ review_form.title }}
+            {{ review_form.title.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ review_form.body.id_for_label }}">{{ review_form.body.label }}</label>
+            {{ review_form.body }}
+            {{ review_form.body.errors }}
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Submit review →</button>
+        </form>
+      </div>
+    </section>
+
+    {% if related %}
+    <section class="detail-block" aria-labelledby="relatedHeading">
+      <div class="detail-block-head">
+        <div>
+          <div class="section-eyebrow">You might also like</div>
+          <h2 class="detail-block-title" id="relatedHeading">More in {{ product.get_category_display|lower }}</h2>
+        </div>
+        <a class="detail-block-link" href="{% url 'shop:shop' %}?category={{ product.category }}">See all {{ product.get_category_display|lower }} →</a>
+      </div>
+      <div class="grid">
+        {% for p in related %}{% include 'shop/_product_card.html' %}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if recently_viewed %}
+    <section class="detail-block" aria-labelledby="recentHeading">
+      <div class="detail-block-head">
+        <div>
+          <div class="section-eyebrow">Your history</div>
+          <h2 class="detail-block-title" id="recentHeading">Recently viewed</h2>
+        </div>
+      </div>
+      <div class="grid">
+        {% for p in recently_viewed %}{% include 'shop/_product_card.html' %}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <p class="detail-back"><a href="{% url 'shop:shop' %}">← Back to shop</a></p>
+  </div>
+</section>
+
+{# Structured data built in the view from this product's own fields — see _product_jsonld(). #}
+<script type="application/ld+json">{{ product_jsonld|jsonld }}</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function () {
+    // Sticky add-to-cart bar: appears once the main Add to cart button has
+    // scrolled out of view, so the action is always one tap away.
+    const mainAddForm = document.getElementById('mainAddForm');
+    const stickyBar = document.getElementById('stickyAddBar');
+    if (mainAddForm && stickyBar && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        const show = !entry.isIntersecting;
+        stickyBar.classList.toggle('show', show);
+        document.body.classList.toggle('has-sticky-bar', show);
+      }, { threshold: 0 });
+      observer.observe(mainAddForm);
+    }
+
+    // Quantity stepper. Purely a convenience over the number input, which
+    // still works (and validates) on its own if JavaScript is unavailable.
+    const qtyInput = document.getElementById('qty');
+    if (qtyInput) {
+      const min = parseInt(qtyInput.min, 10) || 1;
+      const max = parseInt(qtyInput.max, 10) || min;
+      const clamp = (value) => Math.min(max, Math.max(min, value || min));
+      document.querySelectorAll('[data-qty-step]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const step = parseInt(btn.dataset.qtyStep, 10) || 0;
+          qtyInput.value = clamp((parseInt(qtyInput.value, 10) || min) + step);
+        });
+      });
+      qtyInput.addEventListener('change', () => { qtyInput.value = clamp(parseInt(qtyInput.value, 10)); });
+    }
+  })();
+</script>
+{% endblock %}

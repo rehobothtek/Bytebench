@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Checkout — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:640px;">
+    <h1 class="page-title" style="margin-bottom:12px;">Checkout</h1>
+    <p style="color:var(--text-dim); font-size:14.5px; margin-bottom:32px;">Pay online now, or arrange payment on delivery — either way we're notified the moment you place the order.</p>
+
+    {% if user.is_authenticated %}
+    <p style="color:var(--text-dim); font-size:13.5px; margin-bottom:20px;">We've filled in the details saved to your account — change anything that's different for this order.</p>
+    {% else %}
+    <p style="color:var(--text-dim); font-size:13.5px; margin-bottom:20px;">
+      Checking out as a guest — that's fine. If you
+      <a href="{% url 'login' %}?next={{ request.path|urlencode }}" style="color:var(--blue-bright);">log in</a> or
+      <a href="{% url 'shop:register' %}?next={{ request.path|urlencode }}" style="color:var(--blue-bright);">create an account</a>,
+      your cart and delivery details are kept for next time.
+    </p>
+    {% endif %}
+
+    <div class="ticket-box">
+      {% for item in items %}
+      <div class="line"><span>{{ item.product.name }} x{{ item.quantity }}</span><b>₦{{ item.subtotal|floatformat:0 }}</b></div>
+      {% endfor %}
+      <div class="line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span>Total</span><b>₦{{ total|floatformat:0 }}</b></div>
+    </div>
+
+    <form method="post" class="panel-box" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+      <ul class="errorlist" style="list-style:none; color:var(--low); font-size:12.5px; margin-bottom:18px;">
+        {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      <div class="field">
+        <label for="{{ form.customer_name.id_for_label }}">Your name</label>
+        {{ form.customer_name }}
+        {{ form.customer_name.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.phone_number.id_for_label }}">Phone / WhatsApp number</label>
+        {{ form.phone_number }}
+        {{ form.phone_number.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.delivery_address.id_for_label }}">Delivery address</label>
+        {{ form.delivery_address }}
+        {{ form.delivery_address.errors }}
+      </div>
+      <div class="field">
+        <label>{{ form.payment_method.label }}</label>
+        <div class="payment-choice">
+          {% for radio in form.payment_method %}
+          <label class="payment-choice-option">{{ radio.tag }} {{ radio.choice_label }}</label>
+          {% endfor %}
+        </div>
+        {{ form.payment_method.errors }}
+      </div>
+      {% if user.is_authenticated %}
+      <label class="checkbox-field" for="{{ form.save_details.id_for_label }}">
+        {{ form.save_details }}
+        <span>
+          {{ form.save_details.label }}
+          <small>{{ form.save_details.help_text }}</small>
+        </span>
+      </label>
+      {% endif %}
+      <button class="btn btn-primary btn-block" type="submit">Place order →</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

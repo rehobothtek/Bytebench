@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Order placed — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:560px;">
+    <div class="diag-panel">
+      <div class="diag-head">
+        <span class="ticket">ORDER <b>#{{ order.id }}</b></span>
+        {# Decorative: order and payment state are spelled out in the list below. #}
+        <span class="led ok" aria-hidden="true"></span>
+      </div>
+      <p style="font-size:15px; margin-bottom:4px;">Thanks, {{ order.customer_name }} — we've got your order and we've been notified.</p>
+      {% if order.payment_method == 'online' and order.payment_status == 'paid' %}
+      <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px;">Payment received in full. Nothing more to do — want to chat about delivery? Message us below.</p>
+      {% else %}
+      <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px;">Payment on delivery/pickup. No further action needed — want to chat about delivery? Message us below.</p>
+      {% endif %}
+      <div class="diag-list">
+        {% for item in order.items.all %}
+        <div class="diag-item"><span class="led ok"></span>{{ item.product_name }} x{{ item.quantity }}<span class="status-txt">₦{{ item.subtotal|floatformat:0 }}</span></div>
+        {% endfor %}
+        {% if order.payment_method == 'online' %}
+        <div class="diag-item"><span class="led {% if order.payment_status == 'paid' %}ok{% else %}warn{% endif %}"></span>Payment<span class="status-txt">{% if order.payment_status == 'paid' %}Paid via Paystack{% else %}{{ order.get_payment_status_display }}{% endif %}</span></div>
+        {% else %}
+        <div class="diag-item"><span class="led warn"></span>Payment<span class="status-txt">On delivery/pickup</span></div>
+        {% endif %}
+      </div>
+      <div style="margin-top:20px;">
+        <a href="{{ whatsapp_url }}" target="_blank" class="btn btn-primary btn-block">Chat with us on WhatsApp →</a>
+      </div>
+    </div>
+    <p style="color:var(--text-dim); font-size:13px; margin-top:16px; text-align:center;">
+      Save your order number <b style="color:var(--text);">#{{ order.id }}</b> — you can check its status any time on the <a href="{% url 'shop:track' %}" style="color:var(--blue-bright);">tracking page</a>, or reach us on <a href="{% url 'shop:contact' %}" style="color:var(--blue-bright);">WhatsApp, Telegram, text, or email</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

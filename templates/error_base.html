@@ -1,0 +1,68 @@
+{% load static %}
+{% comment %}
+  Shared shell for the 404 and 500 pages. 404.html and 500.html fill in the
+  three blocks at the bottom.
+
+  This deliberately does NOT extend base.html. Django renders the 500 template
+  with no request and no context processors, so everything shop/context_processors.py
+  provides — SITE_NAME, the cart/wishlist/compare counts, canonical_url — is
+  simply absent there. Worse, the most common cause of a 500 is the database
+  being unreachable, which is exactly what that context processor would then try
+  to query, so extending base.html would turn one error into two.
+
+  So this shell depends on nothing but {% static %} and {% url %}, both of which
+  read from settings and need no request, plus a literal fallback for the site
+  name. Tokens and the stylesheet are the site's own, so it still looks like
+  RehoBothTek. The 404 path could have used the full base template, but the same
+  guarantee — an error page that cannot itself fail — is worth having on both.
+{% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Error — RehoBothTek{% endblock %}</title>
+{# An error page is never a useful search result. #}
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="{% static 'images/favicon-64.png' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a class="logo" href="{% url 'shop:home' %}">
+      <img src="{% static 'images/logo-mark-256.png' %}" alt="RehoBothTek logo">
+      {{ SITE_NAME|default:"RehoBothTek" }}
+    </a>
+    <nav class="navlinks">
+      <a href="{% url 'shop:shop' %}">Shop</a>
+      <a href="{% url 'shop:repairs' %}">Repairs</a>
+      <a href="{% url 'shop:track' %}">Track</a>
+      <a href="{% url 'shop:about' %}">About</a>
+      <a href="{% url 'shop:contact' %}">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section error-page">
+    <div class="wrap">
+      <div class="error-code">{% block error_code %}500{% endblock %}</div>
+      <h1 class="error-title">{% block error_title %}Something went wrong{% endblock %}</h1>
+      <p class="error-text">{% block error_text %}{% endblock %}</p>
+      <div class="btn-row error-actions">
+        <a href="{% url 'shop:home' %}" class="btn btn-primary">Back to the shop →</a>
+        <a href="{% url 'shop:contact' %}" class="btn btn-ghost">Tell us about it</a>
+      </div>
+      <p class="error-note">
+        Chasing an order or a repair? <a href="{% url 'shop:track' %}">Track it with your ticket number</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

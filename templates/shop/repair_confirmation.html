@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Repair booked — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:560px;">
+    <div class="diag-panel">
+      <div class="diag-head">
+        <span class="ticket">TICKET <b>#{{ booking.ticket_number }}</b></span>
+        {# Decorative: the status row below says the same thing in words. #}
+        <span class="led warn" aria-hidden="true"></span>
+      </div>
+      <p style="font-size:15px; margin-bottom:4px;">Thanks, {{ booking.customer_name }} — your ticket is open and we've been notified.</p>
+      <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px;">No further action needed. Want to sort a drop-off time? Message us below.</p>
+      <div class="diag-list">
+        <div class="diag-item"><span class="led ok"></span>Device<span class="status-txt">{{ booking.device }}</span></div>
+        <div class="diag-item"><span class="led ok"></span>Repair type<span class="status-txt">{{ booking.repair_type }}</span></div>
+        <div class="diag-item"><span class="led warn"></span>Status<span class="status-txt">{{ booking.get_status_display }}</span></div>
+      </div>
+      <div style="margin-top:20px;">
+        <a href="{{ whatsapp_url }}" target="_blank" class="btn btn-primary btn-block">Chat with us on WhatsApp →</a>
+      </div>
+    </div>
+    <p style="color:var(--text-dim); font-size:13px; margin-top:16px; text-align:center;">
+      Save your ticket number <b style="color:var(--text);">#{{ booking.ticket_number }}</b> — you can check its status any time on the <a href="{% url 'shop:track' %}" style="color:var(--blue-bright);">tracking page</a>, or reach us on <a href="{% url 'shop:contact' %}" style="color:var(--blue-bright);">WhatsApp, Telegram, text, or email</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

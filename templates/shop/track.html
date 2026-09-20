@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Track your order/repair — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Check the status of a {{ SITE_NAME }} order or repair ticket. Enter your order or ticket number plus the phone number you used — no account needed.{% endblock %}
+{% block og_title %}Track your order or repair — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}Enter your order or ticket number plus the phone number you used — no account needed.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:640px;">
+    <div class="section-eyebrow">Self-service</div>
+    <h1 class="page-title" style="margin-bottom:12px;">Track your order or repair</h1>
+    <p style="color:var(--text-dim); font-size:14.5px; margin-bottom:32px;">Enter your order number (e.g. <span style="font-family:var(--mono);">12</span>) or repair ticket number (e.g. <span style="font-family:var(--mono);">RBT-1007</span>), plus the phone number you used, and we'll pull up the status.</p>
+
+    <form method="post" class="panel-box" style="margin-bottom:28px;">
+      {% csrf_token %}
+      <div class="field">
+        <label for="{{ form.reference_number.id_for_label }}">{{ form.reference_number.label }}</label>
+        {{ form.reference_number }}
+      </div>
+      <div class="field">
+        <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+        {{ form.phone_number }}
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Check status →</button>
+    </form>
+
+    {% if error %}
+      <div class="ticket-box" style="border-color:var(--low); color:var(--low);">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+      {% if result.type == 'repair' %}
+      <div class="diag-panel">
+        <div class="diag-head">
+          <span class="ticket">TICKET <b>#{{ result.object.ticket_number }}</b></span>
+          {# Decorative: the Status row below carries the same state as text. #}
+          <span class="led {% if result.object.status == 'done' %}ok{% elif result.object.status == 'cancelled' %}low{% else %}warn{% endif %}" aria-hidden="true"></span>
+        </div>
+        <div class="diag-list">
+          <div class="diag-item"><span class="led ok"></span>Device<span class="status-txt">{{ result.object.device }}</span></div>
+          <div class="diag-item"><span class="led ok"></span>Repair type<span class="status-txt">{{ result.object.repair_type }}</span></div>
+          <div class="diag-item"><span class="led {% if result.object.status == 'done' %}ok{% elif result.object.status == 'cancelled' %}low{% else %}warn{% endif %}"></span>Status<span class="status-txt">{{ result.object.get_status_display }}</span></div>
+          <div class="diag-item"><span class="led ok"></span>Booked<span class="status-txt">{{ result.object.created_at|date:"d M Y" }}</span></div>
+        </div>
+      </div>
+      {% else %}
+      <div class="diag-panel">
+        <div class="diag-head">
+          <span class="ticket">ORDER <b>#{{ result.object.id }}</b></span>
+          {# Decorative: the Status row below carries the same state as text. #}
+          <span class="led {% if result.object.status == 'fulfilled' %}ok{% elif result.object.status == 'cancelled' %}low{% else %}warn{% endif %}" aria-hidden="true"></span>
+        </div>
+        <div class="diag-list">
+          {% for item in result.object.items.all %}
+          <div class="diag-item"><span class="led ok"></span>{{ item.product_name }} x{{ item.quantity }}<span class="status-txt">₦{{ item.subtotal|floatformat:0 }}</span></div>
+          {% endfor %}
+          {% if result.object.payment_method == 'online' %}
+          <div class="diag-item"><span class="led {% if result.object.payment_status == 'paid' %}ok{% else %}warn{% endif %}"></span>Payment<span class="status-txt">{{ result.object.get_payment_status_display }}</span></div>
+          {% else %}
+          <div class="diag-item"><span class="led warn"></span>Payment<span class="status-txt">On delivery/pickup</span></div>
+          {% endif %}
+          <div class="diag-item"><span class="led {% if result.object.status == 'fulfilled' %}ok{% elif result.object.status == 'cancelled' %}low{% else %}warn{% endif %}"></span>Status<span class="status-txt">{{ result.object.get_status_display }}</span></div>
+          <div class="diag-item"><span class="led ok"></span>Placed<span class="status-txt">{{ result.object.created_at|date:"d M Y" }}</span></div>
+        </div>
+      </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

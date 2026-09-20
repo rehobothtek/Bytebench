@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Contact — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Reach {{ SITE_NAME }} on WhatsApp, Telegram, SMS or email, or send us a message. Visit us at No3 Charismatic Crescent, Ugbokolo, Benue — Mon to Sat, 9am to 7pm.{% endblock %}
+{% block og_title %}Contact — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}WhatsApp, Telegram, SMS or email — however's easiest. Visit us at No3 Charismatic Crescent, Ugbokolo, Benue.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Get in touch</div>
+        <h2>Contact us</h2>
+      </div>
+      <p>Reach us however's easiest — WhatsApp, Telegram, text, or email. Or use the form for anything else.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="panel-box">
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+          <ul class="errorlist" style="list-style:none; color:var(--low); font-size:12.5px; margin-bottom:18px;">
+            {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="field">
+            <label for="{{ form.name.id_for_label }}">Your name</label>
+            {{ form.name }}
+            {{ form.name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.phone_number.id_for_label }}">Phone (optional)</label>
+            {{ form.phone_number }}
+            {{ form.phone_number.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.message.id_for_label }}">Message</label>
+            {{ form.message }}
+            {{ form.message.errors }}
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Send message →</button>
+        </form>
+      </div>
+
+      <div class="contact-cards">
+        <a class="contact-card" href="https://wa.me/{{ WHATSAPP_NUMBER }}" target="_blank">
+          <div class="badge" style="margin:0 0 12px;">💬</div>
+          <div class="name">WhatsApp</div>
+          <div class="desc">Fastest way to reach us for orders &amp; repairs</div>
+        </a>
+        <a class="contact-card" href="https://t.me/{{ TELEGRAM_USERNAME }}" target="_blank">
+          <div class="badge" style="margin:0 0 12px;">✈️</div>
+          <div class="name">Telegram</div>
+          <div class="desc">@{{ TELEGRAM_USERNAME }}</div>
+        </a>
+        <a class="contact-card" href="sms:+{{ WHATSAPP_NUMBER }}">
+          <div class="badge" style="margin:0 0 12px;">💬</div>
+          <div class="name">Text / SMS</div>
+          <div class="desc">No WhatsApp? Send a text instead</div>
+        </a>
+        <a class="contact-card" href="mailto:{{ SITE_EMAIL }}">
+          <div class="badge" style="margin:0 0 12px;">✉️</div>
+          <div class="name">Email</div>
+          <div class="desc">{{ SITE_EMAIL }}</div>
+        </a>
+        <div class="contact-card">
+          <div class="badge" style="margin:0 0 12px;">📍</div>
+          <div class="name">Visit</div>
+          <div class="desc">No3 Charismatic Crescent, Ugbokolo, Benue<br>Mon–Sat: 9am – 7pm</div>
+        </div>
+        <a class="contact-card" href="https://www.google.com/maps/dir/?api=1&destination={{ SHOP_ADDRESS|urlencode }}" target="_blank">
+          <div class="badge" style="margin:0 0 12px;">🧭</div>
+          <div class="name">Get Directions</div>
+          <div class="desc">Opens in Google Maps</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps?q={{ SHOP_ADDRESS|urlencode }}&output=embed"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade" title="{{ SITE_NAME }} location">
+      </iframe>
+    </div>
+  </div>
+</section>
+{% endblock %}

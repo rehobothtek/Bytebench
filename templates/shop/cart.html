@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Your cart — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <h1 class="page-title" style="margin-bottom:32px;">Your cart</h1>
+
+    {% if items %}
+    <div class="table-scroll">
+      <table class="cart-table">
+        <thead>
+          <tr><th>Product</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.product.emoji }} {{ item.product.name }}</td>
+            <td>₦{{ item.product.price|floatformat:0 }}</td>
+            <td>
+              <form class="qty-form" method="post" action="{% url 'shop:cart_update' item.product.id %}">
+                {% csrf_token %}
+                <button class="qty-btn" name="action" value="decrease">−</button>
+                <span>{{ item.quantity }}</span>
+                <button class="qty-btn" name="action" value="increase">+</button>
+              </form>
+            </td>
+            <td>₦{{ item.subtotal|floatformat:0 }}</td>
+            <td>
+              <form method="post" action="{% url 'shop:cart_update' item.product.id %}">
+                {% csrf_token %}
+                <button class="remove-link" name="action" value="remove">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if user.is_authenticated %}
+    <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px; text-align:right;">Saved to your account — this cart will still be here on your next visit.</p>
+    {% else %}
+    <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px; text-align:right;">
+      <a href="{% url 'login' %}" style="color:var(--blue-bright);">Log in</a> or
+      <a href="{% url 'shop:register' %}" style="color:var(--blue-bright);">create an account</a>
+      and we'll keep this cart for your next visit.
+    </p>
+    {% endif %}
+
+    <div style="display:flex; justify-content:flex-end; align-items:center; gap:24px; margin-bottom:24px;">
+      <span style="font-family:var(--mono); font-size:18px;">Subtotal: ₦{{ total|floatformat:0 }}</span>
+    </div>
+    <div style="display:flex; justify-content:flex-end;">
+      <a href="{% url 'shop:checkout' %}" class="btn btn-primary">Proceed to checkout →</a>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+      <p>Your cart is empty.</p>
+      <p style="margin-top:8px;"><a href="{% url 'shop:shop' %}" style="color:var(--blue-bright);">Browse devices →</a></p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

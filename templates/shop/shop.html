@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Shop — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Phones, laptops, accessories and gaming gear in stock at {{ SITE_NAME }} in Ugbokolo, Benue. Condition graded honestly — New, UK-Used or Nigerian-Used.{% endblock %}
+{% block og_title %}Shop phones, laptops &amp; accessories — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}Phones, laptops, accessories and gaming gear in stock at {{ SITE_NAME }} in Ugbokolo, Benue. Condition graded honestly — New, UK-Used or Nigerian-Used.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Inventory · Live</div>
+        <h2>Shop devices</h2>
+      </div>
+      <p>Condition is graded honestly — New, UK-Used, or Nigerian-Used — so you know exactly what you're buying.</p>
+    </div>
+
+    <div class="filters" style="justify-content:space-between; flex-wrap:wrap; gap:16px;">
+      {# aria-current, because the selected filter is marked by colour alone. #}
+      <div class="filters" style="margin-bottom:0;">
+        <a class="filter-btn {% if active_category == 'all' %}active{% endif %}" href="{% url 'shop:shop' %}"{% if active_category == 'all' %} aria-current="true"{% endif %}>All</a>
+        <a class="filter-btn {% if active_category == 'phone' %}active{% endif %}" href="?category=phone"{% if active_category == 'phone' %} aria-current="true"{% endif %}>Phones</a>
+        <a class="filter-btn {% if active_category == 'laptop' %}active{% endif %}" href="?category=laptop"{% if active_category == 'laptop' %} aria-current="true"{% endif %}>Laptops</a>
+        <a class="filter-btn {% if active_category == 'accessory' %}active{% endif %}" href="?category=accessory"{% if active_category == 'accessory' %} aria-current="true"{% endif %}>Accessories</a>
+        <a class="filter-btn {% if active_category == 'gaming' %}active{% endif %}" href="?category=gaming"{% if active_category == 'gaming' %} aria-current="true"{% endif %}>Gaming</a>
+      </div>
+      <div class="search-wrap">
+        <form method="get" class="search-form">
+          {% if active_category != 'all' %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
+          {# A placeholder is not a label — it is gone the moment anything is typed. #}
+          <input type="text" name="q" id="liveSearchInput" value="{{ query }}" placeholder="Search products…" autocomplete="off" aria-label="Search products">
+          <button type="submit">Search</button>
+        </form>
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+    </div>
+
+    {% if query %}
+      <p style="color:var(--text-dim); font-size:13.5px; margin-bottom:16px;">
+        {{ products|length }} result{{ products|length|pluralize }} for "{{ query }}" &middot;
+        <a href="{% url 'shop:shop' %}" style="color:var(--blue-bright);">clear search</a>
+      </p>
+    {% endif %}
+
+    <div class="grid">
+      {% for p in products %}{% include 'shop/_product_card.html' %}
+      {% empty %}
+      <p style="color:var(--text-dim);">Nothing here yet — add products from the admin panel at /admin/.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

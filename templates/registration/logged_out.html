@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Logged out — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:460px;">
+    <h1 class="page-title" style="margin-bottom:12px;">You're logged out</h1>
+    <p style="color:var(--text-dim); font-size:14.5px; margin-bottom:28px;">Your cart, saved details and order history are safe in your account — log back in any time and pick up where you left off.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{% url 'login' %}">Log in again →</a>
+      <a class="btn btn-ghost" href="{% url 'shop:home' %}">Back to home</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

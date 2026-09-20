@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="led ok"></span> Open now · Ugbokolo, Benue</div>
+      <h1>Phones, laptops &amp; accessories — fixed and sold to be <em>{{ SITE_TAGLINE }}.</em></h1>
+      <p class="lead">New and trusted UK-used devices, genuine accessories, and repairs backed by a real ticket number — not a guess. Every job gets tracked from drop-off to done.</p>
+      <div class="btn-row">
+        <a href="{% url 'shop:shop' %}" class="btn btn-primary">Shop devices →</a>
+        <a href="{% url 'shop:repairs' %}" class="btn btn-ghost">Book a repair</a>
+      </div>
+    </div>
+    <div class="diag-panel">
+      <div class="diag-head">
+        <span class="ticket">TICKET <b>#RBT-2291</b></span>
+        {# Decorative: the status of every check is spelled out in the list below. #}
+        <span class="led warn" aria-hidden="true"></span>
+      </div>
+      <div class="diag-list">
+        <div class="diag-item"><span class="led ok"></span> Battery health <span class="status-txt">91% · pass</span></div>
+        <div class="diag-item"><span class="led ok"></span> Charging port <span class="status-txt">pass</span></div>
+        <div class="diag-item"><span class="led warn"></span> Display <span class="status-txt">replacing</span></div>
+        <div class="diag-item"><span class="led ok"></span> Face ID <span class="status-txt">pass</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-badges">
+    <div class="trust-badge"><span class="trust-icon">✅</span> Genuine Products</div>
+    <div class="trust-badge"><span class="trust-icon">🛡️</span> Warranty Included</div>
+    <div class="trust-badge"><span class="trust-icon">🔒</span> Secure Payments</div>
+    <div class="trust-badge"><span class="trust-icon">🚚</span> Fast Delivery</div>
+    <div class="trust-badge"><span class="trust-icon">📦</span> Nationwide Shipping</div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:40px;">
+  <div class="wrap">
+    <div class="cat-strip">
+      <a class="cat-card" href="{% url 'shop:shop' %}?category=phone">
+        <span class="icon">📱</span><div class="name">Phones</div>
+        <div class="meta"><span class="led ok"></span> In stock</div>
+      </a>
+      <a class="cat-card" href="{% url 'shop:shop' %}?category=laptop">
+        <span class="icon">💻</span><div class="name">Laptops</div>
+        <div class="meta"><span class="led ok"></span> In stock</div>
+      </a>
+      <a class="cat-card" href="{% url 'shop:shop' %}?category=accessory">
+        <span class="icon">🔌</span><div class="name">Accessories</div>
+        <div class="meta"><span class="led ok"></span> In stock</div>
+      </a>
+      <a class="cat-card" href="{% url 'shop:shop' %}?category=gaming">
+        <span class="icon">🎮</span><div class="name">Gaming</div>
+        <div class="meta"><span class="led ok"></span> In stock</div>
+      </a>
+      <a class="cat-card" href="{% url 'shop:repairs' %}">
+        <span class="icon">🔧</span><div class="name">Repairs</div>
+        <div class="meta"><span class="led warn"></span> Book now</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% if featured %}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Inventory · Live</div><h2>Featured devices</h2></div>
+      <a href="{% url 'shop:shop' %}" class="btn btn-ghost">View all →</a>
+    </div>
+    <div class="grid">
+      {% for p in featured %}{% include 'shop/_product_card.html' %}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if bestsellers %}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Customer favourites</div><h2>Best sellers</h2></div>
+    </div>
+    <div class="grid">
+      {% for p in bestsellers %}{% include 'shop/_product_card.html' %}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Just landed</div><h2>New arrivals</h2></div>
+      <a href="{% url 'shop:shop' %}" class="btn btn-ghost">View all →</a>
+    </div>
+    <div class="grid">
+      {% for p in new_arrivals %}{% include 'shop/_product_card.html' %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Repair bench</div><h2>Featured repair services</h2></div>
+      <a href="{% url 'shop:repairs' %}" class="btn btn-ghost">Book a repair →</a>
+    </div>
+    <div class="repair-grid">
+      {% for r in repair_types %}
+      <div class="r-card">
+        <div class="r-icon">{{ r.icon }}</div>
+        <div class="r-info">
+          <div class="name">{{ r.name }}</div>
+          <div class="desc">{{ r.description }}</div>
+        </div>
+        <div>
+          <div class="r-price">{{ r.price_range }}</div>
+          <div class="r-time">⏱ {{ r.time_estimate }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if testimonials %}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Word on the street</div><h2>What customers say</h2></div>
+    </div>
+    <div class="testimonial-grid">
+      {% for t in testimonials %}
+      <div class="testimonial-card">
+        <div class="testimonial-stars">{% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+        <p class="testimonial-quote">&ldquo;{{ t.quote }}&rdquo;</p>
+        <div class="testimonial-author">{{ t.customer_name }}{% if t.customer_location %} <span>· {{ t.customer_location }}</span>{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="teaser-banner">
+      <div>
+        <div class="section-eyebrow">Why {{ SITE_NAME }}</div>
+        <h2 style="font-size:26px; margin-bottom:8px;">Every device gets a ticket. Every repair gets a status.</h2>
+        <p style="color:var(--text-dim); font-size:14.5px; max-width:480px;">No paperwork, no accountability — that's the old way. Here your device is logged the moment it lands on the bench.</p>
+      </div>
+      <a href="{% url 'shop:about' %}" class="btn btn-ghost" style="flex-shrink:0;">Learn more about us →</a>
+    </div>
+  </div>
+</section>
+
+{% if faqs %}
+<section class="section" style="padding-top:0;">
+  <div class="wrap" style="max-width:820px;">
+    <div class="section-head">
+      <div><div class="section-eyebrow">Questions</div><h2>Frequently asked questions</h2></div>
+    </div>
+    <div class="faq-list">
+      {% for faq in faqs %}
+      <div class="faq-item">
+        {# aria-expanded carries the open/closed state, which is otherwise only visible as an animated box growing. The "+" is an affordance, not content, so it is kept out of the announcement. #}
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-{{ faq.id }}">{{ faq.question }}<span class="faq-toggle" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-answer-{{ faq.id }}"><p>{{ faq.answer }}</p></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

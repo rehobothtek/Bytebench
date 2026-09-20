@@ -1,0 +1,10 @@
+{% extends 'error_base.html' %}
+{% comment %}
+  Shown by django.views.defaults.page_not_found whenever DEBUG is off. With
+  DEBUG on, Django still shows its own technical 404 page listing the URL
+  patterns it tried — that is deliberate and unchanged.
+{% endcomment %}
+{% block title %}Page not found — {{ SITE_NAME|default:"RehoBothTek" }}{% endblock %}
+{% block error_code %}404{% endblock %}
+{% block error_title %}That page isn't here{% endblock %}
+{% block error_text %}The link may be broken, or the page may have been moved or renamed since it was shared. Nothing is wrong with your account — everything on the shelf is one click away.{% endblock %}

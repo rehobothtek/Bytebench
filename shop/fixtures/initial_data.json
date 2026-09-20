@@ -1,0 +1,1108 @@
+[
+  {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+      "name": "iPhone 13, 128GB",
+      "category": "phone",
+      "condition": "uk",
+      "spec": "Blue · Face ID · Battery 89%",
+      "price": "485000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": true,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 8
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+      "name": "iPhone 11, 64GB",
+      "category": "phone",
+      "condition": "ng",
+      "spec": "Black · Battery 84%",
+      "price": "265000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 12
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+      "name": "Samsung Galaxy S23",
+      "category": "phone",
+      "condition": "new",
+      "spec": "128GB · Cream · 5G",
+      "price": "610000.00",
+      "compare_at_price": "680000.00",
+      "stock_status": "warn",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 4
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+      "name": "Samsung Galaxy A54",
+      "category": "phone",
+      "condition": "new",
+      "spec": "256GB · Awesome Lime",
+      "price": "295000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": true,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 6
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+      "name": "Tecno Camon 20",
+      "category": "phone",
+      "condition": "new",
+      "spec": "256GB · Serenity Blue",
+      "price": "175000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 20
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+      "name": "iPhone 14 Pro",
+      "category": "phone",
+      "condition": "uk",
+      "spec": "256GB · Deep Purple",
+      "price": "890000.00",
+      "compare_at_price": null,
+      "stock_status": "low",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 2
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+      "name": "MacBook Air M1",
+      "category": "laptop",
+      "condition": "uk",
+      "spec": "8GB / 256GB · Space Grey",
+      "price": "720000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": true,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 9
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+      "name": "HP EliteBook 840 G6",
+      "category": "laptop",
+      "condition": "uk",
+      "spec": "i5 / 16GB / 512GB SSD",
+      "price": "385000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/hp-elitebook-840.jpg",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 15
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+      "name": "Dell Latitude 7420",
+      "category": "laptop",
+      "condition": "uk",
+      "spec": "i7 / 16GB / 512GB SSD",
+      "price": "465000.00",
+      "compare_at_price": null,
+      "stock_status": "warn",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 3
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+      "name": "Lenovo IdeaPad Slim 3",
+      "category": "laptop",
+      "condition": "new",
+      "spec": "i3 / 8GB / 256GB SSD",
+      "price": "340000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 7
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+      "name": "20W USB-C Fast Charger",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Original · 1yr warranty",
+      "price": "12500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🔌",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": true,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 25
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+      "name": "Wireless Earbuds Pro",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "ANC · 30hr battery case",
+      "price": "28000.00",
+      "compare_at_price": "35000.00",
+      "stock_status": "ok",
+      "emoji": "🎧",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 11
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 13,
+    "fields": {
+      "name": "Tempered Glass Screen Guard",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Fits most models",
+      "price": "2500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🛡️",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 18
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 14,
+    "fields": {
+      "name": "Laptop Sleeve 13\"-15\"",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Padded · water-resistant",
+      "price": "9500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "💼",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-01T09:00:00Z",
+      "stock_quantity": 10
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 15,
+    "fields": {
+      "name": "iPhone 15, 128GB",
+      "category": "phone",
+      "condition": "new",
+      "spec": "Black · USB-C · Battery 100%",
+      "price": "980000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 30
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 16,
+    "fields": {
+      "name": "Google Pixel 8",
+      "category": "phone",
+      "condition": "uk",
+      "spec": "128GB · Obsidian · Battery 92%",
+      "price": "540000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 14
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 17,
+    "fields": {
+      "name": "Infinix Note 30",
+      "category": "phone",
+      "condition": "new",
+      "spec": "256GB · Volcano Ash · 5G",
+      "price": "210000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 6
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 18,
+    "fields": {
+      "name": "Xiaomi Redmi Note 12",
+      "category": "phone",
+      "condition": "new",
+      "spec": "128GB · Onyx Grey",
+      "price": "165000.00",
+      "compare_at_price": null,
+      "stock_status": "warn",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 5
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 19,
+    "fields": {
+      "name": "ASUS Vivobook 15",
+      "category": "laptop",
+      "condition": "new",
+      "spec": "i5 / 8GB / 512GB SSD",
+      "price": "560000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 22
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 20,
+    "fields": {
+      "name": "Acer Aspire 5",
+      "category": "laptop",
+      "condition": "new",
+      "spec": "i5 / 8GB / 256GB SSD",
+      "price": "495000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 16
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 21,
+    "fields": {
+      "name": "MacBook Pro 13\" M2",
+      "category": "laptop",
+      "condition": "uk",
+      "spec": "8GB / 256GB · Space Grey",
+      "price": "1150000.00",
+      "compare_at_price": null,
+      "stock_status": "low",
+      "emoji": "💻",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 1
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 22,
+    "fields": {
+      "name": "20,000mAh Power Bank",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Fast charge · dual USB-C/USB-A",
+      "price": "18500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🔋",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": true,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 9
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 23,
+    "fields": {
+      "name": "Bluetooth Speaker",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Portable · 12hr battery",
+      "price": "22000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🔊",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 13
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 24,
+    "fields": {
+      "name": "Wireless Mouse",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "2.4GHz · ergonomic",
+      "price": "8500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🖱️",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 40
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 25,
+    "fields": {
+      "name": "USB-C Multiport Hub",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "HDMI · USB 3.0 · SD card",
+      "price": "16500.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🔌",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 12
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 26,
+    "fields": {
+      "name": "Laptop Cooling Pad",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Dual fan · adjustable height",
+      "price": "14000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "emoji": "🧊",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-02T09:00:00Z",
+      "stock_quantity": 8
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 27,
+    "fields": {
+      "name": "Samsung Galaxy S26 Ultra, 256GB",
+      "category": "phone",
+      "condition": "new",
+      "spec": "Titanium Black · 200MP camera · 5G",
+      "price": "1450000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/galaxy-s26-ultra.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": true,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 17
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 28,
+    "fields": {
+      "name": "iPhone 12, 64GB",
+      "category": "phone",
+      "condition": "uk",
+      "spec": "Assorted colours · Battery 87%+",
+      "price": "230000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/iphone-12-lineup.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 10
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 29,
+    "fields": {
+      "name": "iPhone 14, 128GB",
+      "category": "phone",
+      "condition": "new",
+      "spec": "Assorted colours · Dual camera",
+      "price": "750000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/iphone-14-lineup.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 24
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 30,
+    "fields": {
+      "name": "iPhone 16, 128GB",
+      "category": "phone",
+      "condition": "new",
+      "spec": "Sealed · Assorted colours",
+      "price": "1100000.00",
+      "compare_at_price": "1200000.00",
+      "stock_status": "ok",
+      "image": "products/iphone-boxed-stock.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": true,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 19
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 31,
+    "fields": {
+      "name": "iPhone 15 Pro Max, 256GB",
+      "category": "phone",
+      "condition": "new",
+      "spec": "Titanium · Triple camera · Sealed",
+      "price": "1350000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/iphone-pro-silver.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 7
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 32,
+    "fields": {
+      "name": "Laptop Backpack (PortBag)",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Water-resistant · fits up to 15.6\"",
+      "price": "25000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/laptop-backpack.jpg",
+      "emoji": "🎒",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 11
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 33,
+    "fields": {
+      "name": "Marvel's Spider-Man: Miles Morales (PS5)",
+      "category": "gaming",
+      "condition": "new",
+      "spec": "PS5 · Sealed",
+      "price": "32000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/spiderman-miles-morales-ps5.jpg",
+      "emoji": "🎮",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": true,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 15
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 34,
+    "fields": {
+      "name": "PS5 Pulse Elite Wireless Headset",
+      "category": "gaming",
+      "condition": "new",
+      "spec": "Noise-cancelling · USB-C",
+      "price": "140000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/ps5-pulse-elite-headset.jpg",
+      "emoji": "🎧",
+      "is_active": true,
+      "is_featured": true,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 20
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 35,
+    "fields": {
+      "name": "PS5 DualSense Edge Controller",
+      "category": "gaming",
+      "condition": "new",
+      "spec": "Customisable · rechargeable",
+      "price": "185000.00",
+      "compare_at_price": null,
+      "stock_status": "warn",
+      "image": "products/dualsense-edge-controller.jpg",
+      "emoji": "🎮",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 4
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 36,
+    "fields": {
+      "name": "JBL Flip 6 Bluetooth Speaker",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Waterproof · assorted colours",
+      "price": "68000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/jbl-flip-speakers.jpg",
+      "emoji": "🔊",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": true,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 9
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 37,
+    "fields": {
+      "name": "JBL Xtreme 3 Bluetooth Speaker",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Portable · powerbank function",
+      "price": "148000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/jbl-xtreme-speakers.jpg",
+      "emoji": "🔊",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 13
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 38,
+    "fields": {
+      "name": "Silicone Phone Case (Alo)",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Assorted colours · soft-touch",
+      "price": "4500.00",
+      "compare_at_price": "6000.00",
+      "stock_status": "ok",
+      "image": "products/alo-phone-cases.jpg",
+      "emoji": "📱",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 6
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 39,
+    "fields": {
+      "name": "USB LED Reading Light",
+      "category": "accessory",
+      "condition": "new",
+      "spec": "Plug-and-play · assorted colours",
+      "price": "3000.00",
+      "compare_at_price": null,
+      "stock_status": "ok",
+      "image": "products/usb-led-light.jpg",
+      "emoji": "💡",
+      "is_active": true,
+      "is_featured": false,
+      "is_bestseller": false,
+      "created_at": "2026-01-05T09:00:00Z",
+      "stock_quantity": 28
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 1,
+    "fields": {
+      "name": "Screen replacement",
+      "description": "Cracked, unresponsive, or discoloured display",
+      "price_range": "₦25,000 – ₦120,000",
+      "time_estimate": "2–4 hrs",
+      "icon": "📱",
+      "is_active": true,
+      "display_order": 1
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 2,
+    "fields": {
+      "name": "Battery replacement",
+      "description": "Fast drain, swelling, or won't hold charge",
+      "price_range": "₦15,000 – ₦45,000",
+      "time_estimate": "1–2 hrs",
+      "icon": "🔋",
+      "is_active": true,
+      "display_order": 2
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 3,
+    "fields": {
+      "name": "Charging port repair",
+      "description": "Not charging, loose connection, port damage",
+      "price_range": "₦10,000 – ₦30,000",
+      "time_estimate": "1–3 hrs",
+      "icon": "🔌",
+      "is_active": true,
+      "display_order": 3
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 4,
+    "fields": {
+      "name": "Water damage recovery",
+      "description": "Liquid exposure, corrosion cleaning",
+      "price_range": "₦20,000 – ₦60,000",
+      "time_estimate": "24–48 hrs",
+      "icon": "💧",
+      "is_active": true,
+      "display_order": 4
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 5,
+    "fields": {
+      "name": "Laptop keyboard / trackpad",
+      "description": "Stuck keys, unresponsive trackpad",
+      "price_range": "₦18,000 – ₦50,000",
+      "time_estimate": "1–2 days",
+      "icon": "⌨️",
+      "is_active": true,
+      "display_order": 5
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 6,
+    "fields": {
+      "name": "Data recovery / backup",
+      "description": "Recover files from a faulty or dead device",
+      "price_range": "₦20,000 – ₦80,000",
+      "time_estimate": "1–3 days",
+      "icon": "💾",
+      "is_active": true,
+      "display_order": 6
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 7,
+    "fields": {
+      "name": "Camera repair",
+      "description": "Blurry, cracked, or unresponsive camera",
+      "price_range": "₦15,000 – ₦55,000",
+      "time_estimate": "2–4 hrs",
+      "icon": "📷",
+      "is_active": true,
+      "display_order": 7
+    }
+  },
+  {
+    "model": "shop.repairtype",
+    "pk": 8,
+    "fields": {
+      "name": "Software / OS reinstall",
+      "description": "Slow performance, freezing, virus cleanup",
+      "price_range": "₦8,000 – ₦20,000",
+      "time_estimate": "2–5 hrs",
+      "icon": "🖥️",
+      "is_active": true,
+      "display_order": 8
+    }
+  },
+  {
+    "model": "shop.testimonial",
+    "pk": 1,
+    "fields": {
+      "customer_name": "Terkaa A.",
+      "customer_location": "Ugbokolo, Benue",
+      "quote": "Bought my Galaxy A54 here and the battery health was exactly as described. They even showed me the diagnostic checklist before I paid. Sample review — replace with a real one.",
+      "rating": 5,
+      "is_active": true,
+      "display_order": 1,
+      "created_at": "2026-01-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "shop.testimonial",
+    "pk": 2,
+    "fields": {
+      "customer_name": "Ojonugwa S.",
+      "customer_location": "Otukpo, Benue",
+      "quote": "My laptop screen was cracked and I thought I'd lose my work. They had it fixed same day and gave me a proper ticket number to track it. Sample review — replace with a real one.",
+      "rating": 5,
+      "is_active": true,
+      "display_order": 2,
+      "created_at": "2026-01-11T09:00:00Z"
+    }
+  },
+  {
+    "model": "shop.testimonial",
+    "pk": 3,
+    "fields": {
+      "customer_name": "Blessing E.",
+      "customer_location": "Makurdi, Benue",
+      "quote": "Ordered a UK-used iPhone and it arrived exactly as graded — no surprises. Will definitely buy from RehoBothTek again. Sample review — replace with a real one.",
+      "rating": 4,
+      "is_active": true,
+      "display_order": 3,
+      "created_at": "2026-01-12T09:00:00Z"
+    }
+  },
+  {
+    "model": "shop.testimonial",
+    "pk": 4,
+    "fields": {
+      "customer_name": "Daniel I.",
+      "customer_location": "Ugbokolo, Benue",
+      "quote": "Fast, honest, and they actually pick up the phone when you call. Got my charging port fixed in under an hour. Sample review — replace with a real one.",
+      "rating": 5,
+      "is_active": true,
+      "display_order": 4,
+      "created_at": "2026-01-13T09:00:00Z"
+    }
+  },
+  {
+    "model": "shop.testimonial",
+    "pk": 5,
+    "fields": {
+      "customer_name": "Faith O.",
+      "customer_location": "Otukpo, Benue",
+      "quote": "I was skeptical about buying gadgets online but the tracking page made it easy to trust the process. Sample review — replace with a real one.",
+      "rating": 4,
+      "is_active": true,
+      "display_order": 5,
+      "created_at": "2026-01-14T09:00:00Z"
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 1,
+    "fields": {
+      "question": "Do you sell brand new devices, or only used ones?",
+      "answer": "Both — every product is clearly graded as New, UK-Used, or Nigerian-Used so you always know exactly what you're buying before you pay.",
+      "display_order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 2,
+    "fields": {
+      "question": "What warranty do you offer?",
+      "answer": "All devices come with our 7-day fault warranty from the date of purchase. New devices may also carry the manufacturer's own warranty where applicable.",
+      "display_order": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 3,
+    "fields": {
+      "question": "How long do repairs usually take?",
+      "answer": "Most common repairs (screens, batteries, charging ports) are done same-day within 2–4 hours. More involved jobs like water damage or data recovery can take 1–3 days. You'll get a ticket number to track progress either way.",
+      "display_order": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 4,
+    "fields": {
+      "question": "Can I pay online, or only in person?",
+      "answer": "Both — you can pay securely online with card, bank transfer, or USSD at checkout, or choose to pay on delivery/pickup instead.",
+      "display_order": 4,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 5,
+    "fields": {
+      "question": "Do you deliver outside Benue State?",
+      "answer": "Yes, we offer nationwide delivery. Pickup is also available at our Ugbokolo location if you're nearby.",
+      "display_order": 5,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 6,
+    "fields": {
+      "question": "What if my device develops a fault after I buy it?",
+      "answer": "Bring it back (or contact us) within 7 days of purchase and we'll repair, replace, or refund it, depending on the issue.",
+      "display_order": 6,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.faq",
+    "pk": 7,
+    "fields": {
+      "question": "How do I track my order or repair?",
+      "answer": "Use the Track page with your order number or repair ticket number, plus the phone number you used — you'll see live status any time.",
+      "display_order": 7,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 1,
+    "fields": {
+      "reviewer_name": "Terkaa A.",
+      "rating": 5,
+      "title": "Exactly as described",
+      "body": "Battery health matched what they said. Very happy. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-10T10:00:00Z",
+      "product": 1
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 2,
+    "fields": {
+      "reviewer_name": "Ojonugwa S.",
+      "rating": 4,
+      "title": "Good phone, minor scuff",
+      "body": "Small scuff on the frame they didn't mention but it works perfectly. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-12T10:00:00Z",
+      "product": 1
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 3,
+    "fields": {
+      "reviewer_name": "Blessing E.",
+      "rating": 5,
+      "title": "Great value",
+      "body": "Fast, light, battery lasts all day. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-11T10:00:00Z",
+      "product": 7
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 4,
+    "fields": {
+      "reviewer_name": "Daniel I.",
+      "rating": 5,
+      "title": "Camera is incredible",
+      "body": "Upgraded from an older Galaxy and the difference is night and day. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-14T10:00:00Z",
+      "product": 27
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 5,
+    "fields": {
+      "reviewer_name": "Faith O.",
+      "rating": 5,
+      "title": "Great game, fast delivery",
+      "body": "Sealed copy, arrived quickly. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-15T10:00:00Z",
+      "product": 33
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 6,
+    "fields": {
+      "reviewer_name": "Michael T.",
+      "rating": 4,
+      "title": "Does the job",
+      "body": "Charges my phone fully twice over. A bit heavy to carry around. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-09T10:00:00Z",
+      "product": 22
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 7,
+    "fields": {
+      "reviewer_name": "Grace N.",
+      "rating": 5,
+      "title": "Loud and clear",
+      "body": "Sound quality surprised me for the size. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-13T10:00:00Z",
+      "product": 36
+    }
+  },
+  {
+    "model": "shop.review",
+    "pk": 8,
+    "fields": {
+      "reviewer_name": "Samuel K.",
+      "rating": 5,
+      "title": "Great budget pick",
+      "body": "Perfect for my daughter's first smartphone. Sample review — replace with a real one.",
+      "verified_purchase": true,
+      "is_approved": true,
+      "created_at": "2026-01-08T10:00:00Z",
+      "product": 4
+    }
+  }
+]

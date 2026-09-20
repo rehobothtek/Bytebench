@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Order #{{ order.id }} — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:820px;">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{% url 'shop:account' %}">My account</a></li>
+        <li><a href="{% url 'shop:order_history' %}">My orders</a></li>
+        <li><span aria-current="page">Order #{{ order.id }}</span></li>
+      </ol>
+    </nav>
+
+    <div class="account-head">
+      <div>
+        <h1 class="page-title">Order #{{ order.id }}</h1>
+        <p>Placed {{ order.created_at|date:"d M Y, H:i" }}</p>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="order-status {% if order.status == 'cancelled' %}is-bad{% elif order.status == 'fulfilled' %}is-good{% elif order.status == 'confirmed' %}is-info{% else %}is-wait{% endif %}">{{ order.get_status_display }}</span>
+        <span class="order-status {% if order.payment_status == 'paid' %}is-good{% elif order.payment_status == 'failed' %}is-bad{% else %}is-wait{% endif %}">{{ order.get_payment_status_display }}</span>
+      </div>
+    </div>
+
+    <div class="panel-box" style="margin-bottom:24px;">
+      <h2 class="account-block-title">What you ordered</h2>
+      <div class="table-scroll">
+        <table class="cart-table">
+          <thead>
+            <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody>
+            {% for item in order.items.all %}
+            <tr>
+              <td>
+                {{ item.product_name }}
+                {% if item.product %}<a class="order-link" style="font-weight:400; font-size:12.5px;" href="{% url 'shop:product_detail' item.product.id %}"> · view item</a>{% endif %}
+              </td>
+              <td>₦{{ item.price|floatformat:0 }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>₦{{ item.subtotal|floatformat:0 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="ticket-box" style="margin-bottom:0;">
+        <div class="line"><span>Total</span><b>₦{{ order.total|floatformat:0 }}</b></div>
+      </div>
+    </div>
+
+    <div class="panel-box">
+      <h2 class="account-block-title">Delivery &amp; payment</h2>
+      <p class="account-block-note">These are the details this order was placed with. Updating your saved details later won't change them.</p>
+      <dl class="fact-list">
+        <div class="fact-item"><dt>Name</dt><dd>{{ order.customer_name }}</dd></div>
+        <div class="fact-item"><dt>Phone</dt><dd>{{ order.phone_number }}</dd></div>
+        <div class="fact-item"><dt>Email</dt><dd>{{ order.email }}</dd></div>
+        <div class="fact-item"><dt>Payment method</dt><dd>{{ order.get_payment_method_display }}</dd></div>
+        <div class="fact-item" style="grid-column:span 2;"><dt>Payment status</dt><dd>{{ order.get_payment_status_display }}</dd></div>
+        <div class="fact-item" style="grid-column:1 / -1;"><dt>Delivery address</dt><dd>{{ order.delivery_address|default:"Not given — we'll confirm it with you on WhatsApp" }}</dd></div>
+      </dl>
+      <p class="detail-whatsapp" style="margin-top:20px;">
+        Questions about this order?
+        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener">Message us on WhatsApp →</a>
+      </p>
+    </div>
+
+    <p class="detail-back"><a href="{% url 'shop:order_history' %}">← Back to my orders</a></p>
+  </div>
+</section>
+{% endblock %}

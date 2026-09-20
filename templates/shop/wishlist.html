@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Your wishlist — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <h1 class="page-title" style="margin-bottom:32px;">Your wishlist</h1>
+    {% if products %}
+    <div class="grid">
+      {% for p in products %}{% include 'shop/_product_card.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>Your wishlist is empty.</p>
+      <p style="margin-top:8px;"><a href="{% url 'shop:shop' %}" style="color:var(--blue-bright);">Browse devices →</a></p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

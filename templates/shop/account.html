@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}My account — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+
+    <div class="account-head">
+      <div>
+        <h1 class="page-title">My account</h1>
+        <p>Signed in as <b>{{ user.get_username }}</b>. Your saved details are filled in automatically at checkout.</p>
+      </div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-ghost" type="submit">Log out</button>
+      </form>
+    </div>
+
+    <div class="account-cards">
+      <a class="account-card" href="{% url 'shop:cart_detail' %}">
+        <span class="icon" aria-hidden="true">🛒</span>
+        <div class="name">Your cart</div>
+        <div class="desc">{{ cart_count }} item{{ cart_count|pluralize }} saved to your account, waiting whenever you are.</div>
+      </a>
+      <a class="account-card" href="{% url 'shop:order_history' %}">
+        <span class="icon" aria-hidden="true">📦</span>
+        <div class="name">My orders</div>
+        <div class="desc">{{ order_count }} order{{ order_count|pluralize }} placed with this account.</div>
+      </a>
+      <a class="account-card" href="{% url 'shop:shop' %}">
+        <span class="icon" aria-hidden="true">🔎</span>
+        <div class="name">Keep shopping</div>
+        <div class="desc">Phones, laptops, accessories and repairs — all in Ugbokolo.</div>
+      </a>
+    </div>
+
+    <div class="account-grid">
+      <div class="panel-box">
+        <h2 class="account-block-title">Saved delivery information</h2>
+        <p class="account-block-note">We'll fill these in for you at checkout. Changing them here never changes an order you've already placed — every order keeps the details it was placed with.</p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="field">
+            <label for="{{ form.default_name.id_for_label }}">{{ form.default_name.label }}</label>
+            {{ form.default_name }}
+            {{ form.default_name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.default_phone.id_for_label }}">{{ form.default_phone.label }}</label>
+            {{ form.default_phone }}
+            {{ form.default_phone.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.default_email.id_for_label }}">{{ form.default_email.label }}</label>
+            {{ form.default_email }}
+            <div class="helptext">Used for receipts and delivery updates.</div>
+            {{ form.default_email.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.delivery_address.id_for_label }}">{{ form.delivery_address.label }}</label>
+            {{ form.delivery_address }}
+            {{ form.delivery_address.errors }}
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Save my details →</button>
+        </form>
+      </div>
+
+      <div class="panel-box">
+        <h2 class="account-block-title">Recent orders</h2>
+        {% if recent_orders %}
+        <div class="table-scroll">
+          <table class="cart-table">
+            <thead>
+              <tr><th>Order</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              {% for order in recent_orders %}
+              <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.created_at|date:"d M Y" }}</td>
+                <td>₦{{ order.total|floatformat:0 }}</td>
+                <td>
+                  <span class="order-status {% if order.status == 'cancelled' %}is-bad{% elif order.status == 'fulfilled' %}is-good{% elif order.status == 'confirmed' %}is-info{% else %}is-wait{% endif %}">{{ order.get_status_display }}</span>
+                </td>
+                <td><a class="order-link" href="{% url 'shop:order_detail' order.id %}">View →</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <a class="order-link" href="{% url 'shop:order_history' %}" style="font-size:13.5px;">See all orders →</a>
+        {% else %}
+        <p style="color:var(--text-dim); font-size:13.5px;">No orders yet. <a class="order-link" href="{% url 'shop:shop' %}">Browse the shop →</a></p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

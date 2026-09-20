@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Log in — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Log in to your {{ SITE_NAME }} account to see your cart, saved delivery details and past orders.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:460px;">
+    <h1 class="page-title" style="margin-bottom:12px;">Log in</h1>
+    <p style="color:var(--text-dim); font-size:14.5px; margin-bottom:28px;">Your cart, saved delivery details and order history are waiting for you.</p>
+
+    <form method="post" class="panel-box" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+      <ul class="errorlist" style="list-style:none; color:var(--low); font-size:12.5px; margin-bottom:18px;">
+        {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      <div class="field">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+      </div>
+
+      {% if request.GET.next %}<input type="hidden" name="next" value="{{ request.GET.next }}">{% endif %}
+      <button class="btn btn-primary btn-block" type="submit">Log in →</button>
+    </form>
+
+    <p style="margin-top:20px; font-size:13.5px; color:var(--text-dim); line-height:1.8;">
+      <a href="{% url 'password_reset' %}" style="color:var(--blue-bright);">Forgot your password?</a>
+      <br>
+      New here? <a href="{% url 'shop:register' %}" style="color:var(--blue-bright);">Create an account →</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

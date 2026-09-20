@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}My orders — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="account-head">
+      <div>
+        <h1 class="page-title">My orders</h1>
+        <p>Every order placed while signed in to this account.</p>
+      </div>
+      <a class="btn btn-ghost" href="{% url 'shop:account' %}">← Back to my account</a>
+    </div>
+
+    {% if orders %}
+    <div class="table-scroll">
+      <table class="cart-table">
+        <thead>
+          <tr><th>Order</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td><a class="order-link" href="{% url 'shop:order_detail' order.id %}">#{{ order.id }}</a></td>
+            <td>{{ order.created_at|date:"d M Y" }}</td>
+            <td>{{ order.items.count }}</td>
+            <td>₦{{ order.total|floatformat:0 }}</td>
+            <td><span class="order-status {% if order.status == 'cancelled' %}is-bad{% elif order.status == 'fulfilled' %}is-good{% elif order.status == 'confirmed' %}is-info{% else %}is-wait{% endif %}">{{ order.get_status_display }}</span></td>
+            <td><span class="order-status {% if order.payment_status == 'paid' %}is-good{% elif order.payment_status == 'failed' %}is-bad{% else %}is-wait{% endif %}">{{ order.get_payment_status_display }}</span></td>
+            <td><a class="order-link" href="{% url 'shop:order_detail' order.id %}">Details →</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+      <p>You haven't placed an order with this account yet.</p>
+      <p style="margin-top:8px;"><a href="{% url 'shop:shop' %}" style="color:var(--blue-bright);">Browse devices →</a></p>
+      <p style="margin-top:24px; font-size:13px;">Ordered as a guest before creating your account? Use
+        <a href="{% url 'shop:track' %}" style="color:var(--blue-bright);">Track order/repair</a> with your order number and phone number.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

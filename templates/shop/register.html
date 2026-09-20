@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Create an account — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Create a {{ SITE_NAME }} account to keep your cart, save your delivery details and track your orders.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:520px;">
+    <h1 class="page-title" style="margin-bottom:12px;">Create an account</h1>
+    <p style="color:var(--text-dim); font-size:14.5px; margin-bottom:28px;">Keep your cart between visits, save your delivery details, and see every order you've placed. Anything already in your cart comes with you.</p>
+
+    <form method="post" class="panel-box" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+      <ul class="errorlist" style="list-style:none; color:var(--low); font-size:12.5px; margin-bottom:18px;">
+        {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      <div class="field">
+        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+        {{ form.first_name }}
+        {{ form.first_name.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+        {{ form.phone_number }}
+        {{ form.phone_number.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% if form.username.help_text %}<div class="helptext">{{ form.username.help_text }}</div>{% endif %}
+        {{ form.username.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        {{ form.password1 }}
+        {{ form.password1.help_text|safe }}
+        {{ form.password1.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+      </div>
+
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn btn-primary btn-block" type="submit">Create my account →</button>
+    </form>
+
+    <p style="margin-top:20px; font-size:13.5px; color:var(--text-dim);">
+      Already have an account? <a href="{% url 'login' %}" style="color:var(--blue-bright);">Log in →</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

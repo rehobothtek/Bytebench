@@ -1,0 +1,15 @@
+{% extends 'error_base.html' %}
+{% comment %}
+  Shown by django.views.defaults.server_error whenever DEBUG is off. It renders
+  with no request and no context, so it must not depend on either — see
+  error_base.html. With DEBUG on, Django still shows its own technical 500 page
+  with the traceback, which is deliberate and unchanged.
+
+  Nothing about the exception reaches this page: server_error is handed the
+  request only, so there is no traceback, no exception text and no settings
+  value available to leak into it even by accident.
+{% endcomment %}
+{% block title %}Something went wrong — {{ SITE_NAME|default:"RehoBothTek" }}{% endblock %}
+{% block error_code %}500{% endblock %}
+{% block error_title %}Something went wrong on our end{% endblock %}
+{% block error_text %}We hit an error and couldn't finish that request — it isn't anything you did, and retrying in a moment usually works. If you were part-way through paying for an order, check your Track page with the order number before trying again.{% endblock %}

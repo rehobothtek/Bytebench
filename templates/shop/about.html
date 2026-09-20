@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}About — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Why we started {{ SITE_NAME }}: phones, laptops and accessories sold and fixed on the same bench in Ugbokolo, Benue — with a real record kept of every job.{% endblock %}
+{% block og_title %}About — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}Phones, laptops and accessories sold and fixed on the same bench in Ugbokolo, Benue — with a real record kept of every job.{% endblock %}
+{% block content %}
+
+<section class="hero" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="eyebrow"><span class="led ok"></span> {{ SITE_TAGLINE }}</div>
+    <h1 style="max-width:640px;">Why we started {{ SITE_NAME }}</h1>
+    <p class="lead">Phones, laptops and accessories — sold and fixed on the same bench, with a real record kept of every job.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-eyebrow">Our story</div>
+      <h2 style="font-size:26px; margin-bottom:18px;">Every device gets a ticket. Every repair gets a status.</h2>
+      <p style="color:var(--text-dim); font-size:15px; margin-bottom:16px;">We started {{ SITE_NAME }} because too many gadget repairs happen with no paperwork and no accountability. Here, your device is logged the moment it lands on the bench — you can ask for your ticket number any time, and check its status whenever you like.</p>
+      <p style="color:var(--text-dim); font-size:15px;">Every phone and laptop we sell is tested against the same checklist we use on repairs, before it ever reaches the shelf. That's the "{{ SITE_TAGLINE }}" part — treating a sale with the same care as a repair job.</p>
+    </div>
+    <div class="diag-panel">
+      {# Purely decorative — the checklist below already says "verified" in words. #}
+      <div class="diag-head"><span class="ticket">QUALITY CHECK · <b>Pre-sale</b></span><span class="led ok" aria-hidden="true"></span></div>
+      <div class="diag-list">
+        <div class="diag-item"><span class="led ok"></span> Battery health ≥ 85% <span class="status-txt">required</span></div>
+        <div class="diag-item"><span class="led ok"></span> No prior liquid damage <span class="status-txt">verified</span></div>
+        <div class="diag-item"><span class="led ok"></span> Original screen or certified part <span class="status-txt">verified</span></div>
+        <div class="diag-item"><span class="led ok"></span> 7-day fault warranty <span class="status-txt">included</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="trust-badges" style="border-top:none;">
+      <div class="trust-badge"><span class="trust-icon">✅</span> Genuine Products</div>
+      <div class="trust-badge"><span class="trust-icon">🛡️</span> Warranty Included</div>
+      <div class="trust-badge"><span class="trust-icon">🔒</span> Secure Payments</div>
+      <div class="trust-badge"><span class="trust-icon">🚚</span> Fast Delivery</div>
+      <div class="trust-badge"><span class="trust-icon">📦</span> Nationwide Shipping</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap" style="text-align:center;">
+    <h2 style="font-size:24px; margin-bottom:16px;">Got a device that needs attention?</h2>
+    <div class="btn-row" style="justify-content:center;">
+      <a href="{% url 'shop:shop' %}" class="btn btn-primary">Shop devices →</a>
+      <a href="{% url 'shop:repairs' %}" class="btn btn-ghost">Book a repair</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

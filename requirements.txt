@@ -1,0 +1,12 @@
+# Pinned to the exact version this project is developed and verified against
+# (the suite runs green on 5.2.17). It was previously an open range,
+# "Django>=4.2,<5.1", which could resolve to a different release on every
+# install and did not match the version actually in use here.
+# To upgrade: bump this line, then run the full test suite before deploying.
+Django==5.2.17
+Pillow>=10.0
+requests>=2.31
+python-dotenv>=1.0
+dj-database-url>=2.1
+psycopg2-binary>=2.9
+whitenoise>=6.6

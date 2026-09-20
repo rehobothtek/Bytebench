@@ -1,0 +1,24 @@
+# Secrets — never commit these
+.env
+*.pem
+*.key
+
+# Django
+db.sqlite3
+staticfiles/
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+.venv/
+
+# Editor/OS
+.DS_Store
+.vscode/
+.idea/
+
+# Note: media/ (product photos) is intentionally NOT ignored here since the
+# starter product photos are meant to ship with the project. In a larger
+# production setup you'd typically move media uploads to cloud storage
+# (e.g. S3) instead of keeping them in git — ask if you'd like that set up.

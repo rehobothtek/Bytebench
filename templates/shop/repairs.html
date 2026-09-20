@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Book a repair — {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Book a phone or laptop repair at {{ SITE_NAME }} in Ugbokolo, Benue. Tell us the device and the fault, and we'll open a ticket and confirm your quote on WhatsApp.{% endblock %}
+{% block og_title %}Book a phone or laptop repair — {{ SITE_NAME }}{% endblock %}
+{% block og_description %}Tell us the device and the fault, and we'll open a ticket and confirm your quote on WhatsApp.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Repair bench</div>
+        <h2>Book a repair</h2>
+      </div>
+      <p>Pick what's wrong, tell us the device, and we'll open a ticket and confirm your quote on WhatsApp.</p>
+    </div>
+
+    <div class="repair-grid">
+      {% for r in repair_types %}
+      <div class="r-card">
+        <div class="r-icon">{{ r.icon }}</div>
+        <div class="r-info">
+          <div class="name">{{ r.name }}</div>
+          <div class="desc">{{ r.description }}</div>
+        </div>
+        <div>
+          <div class="r-price">{{ r.price_range }}</div>
+          <div class="r-time">⏱ {{ r.time_estimate }}</div>
+        </div>
+      </div>
+      {% empty %}
+      <p style="color:var(--text-dim);">No repair types listed yet — add some from the admin panel at /admin/.</p>
+      {% endfor %}
+    </div>
+
+    <div class="panel-box">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+          <div class="field">
+            <label for="{{ form.customer_name.id_for_label }}">Your name</label>
+            {{ form.customer_name }}
+            {{ form.customer_name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.phone_number.id_for_label }}">Phone / WhatsApp number</label>
+            {{ form.phone_number }}
+            {{ form.phone_number.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.device.id_for_label }}">Device</label>
+            {{ form.device }}
+            {{ form.device.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.repair_type.id_for_label }}">Repair type</label>
+            {{ form.repair_type }}
+            {{ form.repair_type.errors }}
+          </div>
+        </div>
+        <div class="field">
+          <label for="{{ form.preferred_time.id_for_label }}">Preferred drop-off time</label>
+          {{ form.preferred_time }}
+        </div>
+        <div class="field">
+          <label for="{{ form.issue_description.id_for_label }}">Describe the issue</label>
+          {{ form.issue_description }}
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Send booking to WhatsApp →</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

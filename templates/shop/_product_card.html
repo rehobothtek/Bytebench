@@ -1,0 +1,62 @@
+<div class="p-card" data-product-id="{{ p.id }}">
+  <a href="{% url 'shop:product_detail' p.id %}" class="p-media">
+    <span class="cond-badge cond-{{ p.condition }}">{{ p.get_condition_display }}</span>
+    {% if p.discount_percent %}<span class="discount-badge">-{{ p.discount_percent }}%</span>{% endif %}
+    {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy">{% else %}<span>{{ p.emoji }}</span>{% endif %}
+  </a>
+
+  {# aria-pressed carries the saved/not-saved state. The ♥ only changes colour, which is not something every customer can see — and with aria-pressed set, the label stays constant and describes the button rather than the state. #}
+  <button class="wishlist-btn {% if p.id in wishlist_ids %}active{% endif %}"
+          data-wishlist-toggle data-url="{% url 'shop:wishlist_toggle' p.id %}"
+          aria-label="Save to wishlist"
+          aria-pressed="{% if p.id in wishlist_ids %}true{% else %}false{% endif %}">♥</button>
+
+  <button class="quick-view-btn" data-quick-view
+    data-name="{{ p.name }}"
+    data-spec="{{ p.spec }}"
+    data-price="₦{{ p.price|floatformat:0 }}"
+    data-compare-price="{% if p.discount_percent %}₦{{ p.compare_at_price|floatformat:0 }}{% endif %}"
+    data-image="{% if p.image %}{{ p.image.url }}{% endif %}"
+    data-emoji="{{ p.emoji }}"
+    data-condition="{{ p.get_condition_display }}"
+    data-stock="{{ p.get_stock_status_display }}"
+    data-stock-class="{{ p.stock_status }}"
+    data-rating="{{ p.rating_percent }}"
+    data-reviews="{{ p.review_count }}"
+    data-url="{% url 'shop:product_detail' p.id %}"
+    data-add-url="{% url 'shop:cart_add' p.id %}">Quick View</button>
+
+  <div class="p-body">
+    <a href="{% url 'shop:product_detail' p.id %}" class="p-name">{{ p.name }}</a>
+    <div class="p-spec">{{ p.spec }}</div>
+
+    {% if p.review_count %}
+    <div class="rating-row">
+      <span class="stars" style="--pct:{{ p.rating_percent }}%"></span>
+      <span class="rating-count">({{ p.review_count }})</span>
+    </div>
+    {% else %}
+    <div class="rating-row rating-row-empty"><span class="stars" style="--pct:0%"></span><span class="rating-count">No reviews yet</span></div>
+    {% endif %}
+
+    <div class="stock-row"><span class="led {{ p.stock_status }}"></span>{{ p.get_stock_status_display }}</div>
+
+    <div class="p-foot">
+      <div class="price-block">
+        <span class="p-price">₦{{ p.price|floatformat:0 }}</span>
+        {% if p.discount_percent %}<span class="compare-price">₦{{ p.compare_at_price|floatformat:0 }}</span>{% endif %}
+      </div>
+      <form method="post" action="{% url 'shop:cart_add' p.id %}" class="add-to-cart-form">
+        {% csrf_token %}
+        {% if p.is_in_stock %}
+        <button class="add-btn" type="submit">Add +</button>
+        {% else %}
+        <button class="add-btn" type="button" disabled>Out of stock</button>
+        {% endif %}
+      </form>
+    </div>
+    <button class="compare-link" data-compare-toggle data-url="{% url 'shop:compare_toggle' p.id %}">
+      {% if p.id in compare_ids %}✓ Added to compare{% else %}+ Add to compare{% endif %}
+    </button>
+  </div>
+</div>

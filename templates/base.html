@@ -1,0 +1,399 @@
+{% load static %}
+{% load product_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}RehoBothTek — Phones, Laptops, Accessories &amp; Repairs{% endblock %}</title>
+<meta name="description" content="{% block meta_description %}Phones, laptops, accessories and expert repairs in Ugbokolo, Benue. Genuine products, warranty included, secure payments.{% endblock %}">
+
+{# Absolute, query-string-free URL for the current page — see canonical_url in shop/context_processors.py. #}
+<link rel="canonical" href="{% block canonical %}{{ canonical_url }}{% endblock %}">
+
+{% comment %}
+  Open Graph / Twitter. Both default to the site-wide wording above; a page
+  that overrides its title and description should override og_title and
+  og_description to match. Twitter falls back to the og: tags for anything not
+  set explicitly, so only the card type is declared here.
+{% endcomment %}
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:site_name" content="{{ SITE_NAME }}">
+<meta property="og:title" content="{% block og_title %}RehoBothTek — Phones, Laptops, Accessories &amp; Repairs{% endblock %}">
+<meta property="og:description" content="{% block og_description %}Phones, laptops, accessories and expert repairs in Ugbokolo, Benue. Genuine products, warranty included, secure payments.{% endblock %}">
+<meta property="og:url" content="{% block og_url %}{{ canonical_url }}{% endblock %}">
+<meta property="og:image" content="{% block og_image %}{{ default_og_image }}{% endblock %}">
+<meta name="twitter:card" content="summary_large_image">
+
+{# Site-level structured data, built from settings only — see _site_jsonld(). #}
+<script type="application/ld+json">{{ site_jsonld|jsonld }}</script>
+
+<link rel="icon" type="image/png" href="{% static 'images/favicon-64.png' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a class="logo" href="{% url 'shop:home' %}">
+      <img src="{% static 'images/logo-mark-256.png' %}" alt="RehoBothTek logo">
+      {{ SITE_NAME }}
+    </a>
+    <nav class="navlinks">
+      <a href="{% url 'shop:shop' %}">Shop</a>
+      <a href="{% url 'shop:repairs' %}">Repairs</a>
+      <a href="{% url 'shop:track' %}">Track</a>
+      <a href="{% url 'shop:about' %}">About</a>
+      <a href="{% url 'shop:contact' %}">Contact</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'shop:account' %}">Account</a>
+      <a href="{% url 'shop:order_history' %}">My Orders</a>
+      <form method="post" action="{% url 'logout' %}" class="nav-logout-form">
+        {% csrf_token %}
+        <button type="submit" class="link-btn">Logout</button>
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'shop:register' %}">Register</a>
+      {% endif %}
+    </nav>
+    <div class="nav-right">
+      <a class="icon-btn" href="{% url 'shop:compare_detail' %}" aria-label="Compare list">⇄<span class="cart-count" id="compareCount">{{ compare_count }}</span></a>
+      <a class="icon-btn" href="{% url 'shop:wishlist_detail' %}" aria-label="Wishlist">♥<span class="cart-count" id="wishlistCount">{{ wishlist_count }}</span></a>
+      <a class="cart-btn" href="{% url 'shop:cart_detail' %}">🛒 Cart <span class="cart-count" id="cartCount">{{ cart_count }}</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="{% url 'shop:shop' %}">Shop</a>
+    <a href="{% url 'shop:repairs' %}">Repairs</a>
+    <a href="{% url 'shop:track' %}">Track order/repair</a>
+    <a href="{% url 'shop:wishlist_detail' %}">Wishlist</a>
+    <a href="{% url 'shop:compare_detail' %}">Compare</a>
+    <a href="{% url 'shop:about' %}">About</a>
+    <a href="{% url 'shop:contact' %}">Contact</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'shop:account' %}">My account</a>
+    <a href="{% url 'shop:order_history' %}">My orders</a>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Log out</button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}">Log in</a>
+    <a href="{% url 'shop:register' %}">Create an account</a>
+    {% endif %}
+  </nav>
+</header>
+
+<main>
+  <div class="wrap" style="padding-top:20px;">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}<li class="msg-{{ message.tags }}">{{ message }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-logo">
+          <img src="{% static 'images/logo-mark-256.png' %}" alt="RehoBothTek logo">
+          <span>{{ SITE_NAME }}</span>
+        </div>
+        <p style="color:var(--text); max-width:240px;">{{ SITE_TAGLINE }} — phones, laptops, accessories, and honest repairs.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" target="_blank">WhatsApp us</a>
+        <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a>
+        <a href="{% url 'shop:contact' %}">Contact form →</a>
+      </div>
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <p>No3 Charismatic Crescent</p>
+        <p>Ugbokolo, Benue</p>
+        <p>Mon–Sat: 9am – 7pm</p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination={{ SHOP_ADDRESS|urlencode }}" target="_blank">Get directions →</a>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="{% url 'shop:shop' %}?category=phone">Phones</a>
+        <a href="{% url 'shop:shop' %}?category=laptop">Laptops</a>
+        <a href="{% url 'shop:shop' %}?category=accessory">Accessories</a>
+        <a href="{% url 'shop:shop' %}?category=gaming">Gaming</a>
+        <a href="{% url 'shop:repairs' %}">Repairs</a>
+        <a href="{% url 'shop:track' %}">Track order/repair</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 {{ SITE_NAME }}</span>
+    </div>
+  </div>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/{{ WHATSAPP_NUMBER }}" target="_blank" aria-label="Chat on WhatsApp">💬</a>
+
+{# Empty on purpose, and present from first paint: a live region has to exist before its text changes or the change is never announced. showToast() sets role/aria-live per severity before writing into it. #}
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<div class="quick-view-overlay" id="quickViewOverlay">
+  {# Hidden with display:none when closed, so it is out of the tab order and the accessibility tree until it opens. The dialog roles describe what it is once it does; qvName is filled in before .open is added. #}
+  <div class="quick-view-modal" role="dialog" aria-modal="true" aria-labelledby="qvName">
+    <button class="qv-close" id="qvClose" aria-label="Close">✕</button>
+    <div class="qv-media" id="qvMedia"></div>
+    <div class="qv-body">
+      <div class="qv-condition" id="qvCondition"></div>
+      <h3 id="qvName"></h3>
+      <p class="qv-spec" id="qvSpec"></p>
+      <div class="rating-row" id="qvRatingRow">
+        <span class="stars" id="qvStars"></span>
+        <span class="rating-count" id="qvReviewCount"></span>
+      </div>
+      <div class="stock-row"><span class="led" id="qvStockLed"></span><span id="qvStock"></span></div>
+      <div class="qv-price-row">
+        <span class="p-price" id="qvPrice"></span>
+        <span class="compare-price" id="qvComparePrice"></span>
+      </div>
+      <div class="qv-actions">
+        <button class="btn btn-primary" id="qvAddBtn">Add to cart →</button>
+        <a class="btn btn-ghost" id="qvViewLink" href="#">View full details →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (menuToggle && mobileNav) {
+    menuToggle.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      menuToggle.classList.toggle('open', open);
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  function showToast(message, isError) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    // Severity picks how urgently a screen reader interrupts: a failure is
+    // announced assertively, an ordinary confirmation waits its turn so it
+    // doesn't cut across whatever the customer is reading. The attributes are
+    // set *before* the text is written, so the message is announced under the
+    // new severity rather than the previous one. Purely a11y — the toast still
+    // looks and animates exactly as it did.
+    toast.setAttribute('role', isError ? 'alert' : 'status');
+    toast.setAttribute('aria-live', isError ? 'assertive' : 'polite');
+    toast.classList.toggle('toast-error', !!isError);
+    toast.innerHTML = (isError ? '' : '<span class="led ok"></span> ') + message;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function csrfHeaderInit(form) {
+    return { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: new FormData(form) };
+  }
+
+  document.querySelectorAll('.add-to-cart-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      try {
+        const res = await fetch(form.action, csrfHeaderInit(form));
+        const data = await res.json();
+        if (!data.ok) {
+          showToast(data.error || "Couldn't add to cart.", true);
+          return;
+        }
+        const countEl = document.getElementById('cartCount');
+        if (countEl) countEl.textContent = data.cart_count;
+        showToast(data.warning || `Added ${data.product_name} to cart`, !!data.warning);
+      } catch (err) {
+        showToast("Couldn't add to cart — check your connection and try again.", true);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-wishlist-toggle]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const csrf = document.querySelector('input[name=csrfmiddlewaretoken]');
+      const formData = new FormData();
+      if (csrf) formData.append('csrfmiddlewaretoken', csrf.value);
+      try {
+        const res = await fetch(btn.dataset.url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData });
+        const data = await res.json();
+        btn.classList.toggle('active', data.added);
+        // The red fill is the only thing that says "saved" — say it in the
+        // markup too, so it isn't a colour-only state.
+        btn.setAttribute('aria-pressed', data.added ? 'true' : 'false');
+        const countEl = document.getElementById('wishlistCount');
+        if (countEl) countEl.textContent = data.wishlist_count;
+        showToast(data.added ? 'Added to wishlist' : 'Removed from wishlist');
+      } catch (err) {
+        showToast('Something went wrong — try again.', true);
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-compare-toggle]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const csrf = document.querySelector('input[name=csrfmiddlewaretoken]');
+      const formData = new FormData();
+      if (csrf) formData.append('csrfmiddlewaretoken', csrf.value);
+      try {
+        const res = await fetch(btn.dataset.url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData });
+        const data = await res.json();
+        btn.textContent = data.added ? '✓ Added to compare' : '+ Add to compare';
+        const countEl = document.getElementById('compareCount');
+        if (countEl) countEl.textContent = data.compare_count;
+        showToast(data.added ? 'Added to comparison (max 4)' : 'Removed from comparison');
+      } catch (err) {
+        showToast('Something went wrong — try again.', true);
+      }
+    });
+  });
+
+  const qvOverlay = document.getElementById('quickViewOverlay');
+  const qvModal = qvOverlay.querySelector('.quick-view-modal');
+  let qvTrigger = null;   // the card button to hand focus back to on close
+
+  function closeQuickView() {
+    qvOverlay.classList.remove('open');
+    if (qvTrigger) { qvTrigger.focus(); qvTrigger = null; }
+  }
+
+  function openQuickView(trigger) {
+    qvTrigger = trigger;
+    qvOverlay.classList.add('open');
+    // Focus follows the eye: without this, a keyboard or screen reader stays
+    // back on the card while a dialog is covering the screen. The close button
+    // is first, and is what Escape does anyway.
+    document.getElementById('qvClose').focus();
+  }
+
+  function qvFocusables() {
+    return Array.from(qvModal.querySelectorAll('a[href], button:not([disabled])'));
+  }
+
+  document.getElementById('qvClose').addEventListener('click', closeQuickView);
+  qvOverlay.addEventListener('click', (e) => { if (e.target === qvOverlay) closeQuickView(); });
+
+  // aria-modal="true" claims the rest of the page is inert, so that claim has
+  // to actually hold: Escape closes the dialog, and Tab cycles within it
+  // instead of wandering off into the page behind it.
+  document.addEventListener('keydown', (e) => {
+    if (!qvOverlay.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeQuickView(); return; }
+    if (e.key !== 'Tab') return;
+    const focusables = qvFocusables();
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const inside = qvModal.contains(document.activeElement);
+    if (e.shiftKey ? (document.activeElement === first || !inside)
+                   : (document.activeElement === last || !inside)) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus();
+    }
+  });
+
+  document.querySelectorAll('[data-quick-view]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const d = btn.dataset;
+      document.getElementById('qvMedia').innerHTML = d.image
+        ? `<img src="${d.image}" alt="${d.name}">`
+        : `<span>${d.emoji}</span>`;
+      document.getElementById('qvCondition').textContent = d.condition;
+      document.getElementById('qvName').textContent = d.name;
+      document.getElementById('qvSpec').textContent = d.spec;
+      document.getElementById('qvStars').style.setProperty('--pct', (d.rating || 0) + '%');
+      document.getElementById('qvReviewCount').textContent = d.reviews > 0 ? `(${d.reviews} review${d.reviews == 1 ? '' : 's'})` : 'No reviews yet';
+      document.getElementById('qvStockLed').className = 'led ' + d.stockClass;
+      document.getElementById('qvStock').textContent = d.stock;
+      document.getElementById('qvPrice').textContent = d.price;
+      document.getElementById('qvComparePrice').textContent = d.comparePrice || '';
+      document.getElementById('qvViewLink').href = d.url;
+      const addBtn = document.getElementById('qvAddBtn');
+      const outOfStock = d.stockClass === 'out';
+      addBtn.disabled = outOfStock;
+      addBtn.textContent = outOfStock ? 'Out of stock' : 'Add to cart →';
+      addBtn.onclick = async () => {
+        if (outOfStock) return;
+        const csrf = document.querySelector('input[name=csrfmiddlewaretoken]');
+        const formData = new FormData();
+        if (csrf) formData.append('csrfmiddlewaretoken', csrf.value);
+        try {
+          const res = await fetch(d.addUrl, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData });
+          const data = await res.json();
+          if (!data.ok) {
+            showToast(data.error || "Couldn't add to cart.", true);
+            return;
+          }
+          const countEl = document.getElementById('cartCount');
+          if (countEl) countEl.textContent = data.cart_count;
+          showToast(data.warning || `Added ${data.product_name} to cart`, !!data.warning);
+          closeQuickView();
+        } catch (err) {
+          showToast("Couldn't add to cart — try again.", true);
+        }
+      };
+      openQuickView(btn);
+    });
+  });
+
+  document.querySelectorAll('.faq-question').forEach((q) => {
+    q.addEventListener('click', () => {
+      // The answer's visibility is animated height, so the button has to carry
+      // the open/closed state for anyone not watching the box grow.
+      const open = q.parentElement.classList.toggle('open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  const searchInput = document.getElementById('liveSearchInput');
+  if (searchInput) {
+    const suggestionsBox = document.getElementById('searchSuggestions');
+    let debounceTimer;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      const q = searchInput.value.trim();
+      if (q.length < 2) { suggestionsBox.classList.remove('open'); suggestionsBox.innerHTML = ''; return; }
+      debounceTimer = setTimeout(async () => {
+        try {
+          const res = await fetch(`{% url 'shop:search_suggestions' %}?q=${encodeURIComponent(q)}`);
+          const data = await res.json();
+          if (!data.results.length) { suggestionsBox.classList.remove('open'); suggestionsBox.innerHTML = ''; return; }
+          suggestionsBox.innerHTML = data.results.map(r => `
+            <a href="${r.url}" class="search-suggestion">
+              <span class="search-suggestion-thumb">${r.image ? `<img src="${r.image}" alt="">` : r.emoji}</span>
+              <span class="search-suggestion-name">${r.name}</span>
+              <span class="search-suggestion-price">${r.price}</span>
+            </a>`).join('');
+          suggestionsBox.classList.add('open');
+        } catch (err) { /* fail quietly, plain search still works */ }
+      }, 250);
+    });
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+        suggestionsBox.classList.remove('open');
+      }
+    });
+  }
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

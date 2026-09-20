@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Compare products — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <h1 class="page-title" style="margin-bottom:12px;">Compare products</h1>
+    {% if products %}
+    <p style="color:var(--text-dim); font-size:14px; margin-bottom:32px;">Comparing {{ products|length }} of 4 possible items.</p>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            {% for p in products %}
+            <th>
+              <div class="p-media" style="width:100px; height:100px; border-radius:10px; margin-bottom:10px;">
+                {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.name }}">{% else %}<span>{{ p.emoji }}</span>{% endif %}
+              </div>
+              <a href="{% url 'shop:product_detail' p.id %}">{{ p.name }}</a>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Price</td>{% for p in products %}<td>₦{{ p.price|floatformat:0 }}</td>{% endfor %}</tr>
+          <tr><td>Condition</td>{% for p in products %}<td>{{ p.get_condition_display }}</td>{% endfor %}</tr>
+          <tr><td>Spec</td>{% for p in products %}<td>{{ p.spec }}</td>{% endfor %}</tr>
+          <tr><td>Stock</td>{% for p in products %}<td><span class="led {{ p.stock_status }}"></span> {{ p.get_stock_status_display }}</td>{% endfor %}</tr>
+          <tr><td>Rating</td>{% for p in products %}<td>{% if p.review_count %}{{ p.average_rating|floatformat:1 }}★ ({{ p.review_count }}){% else %}No reviews{% endif %}</td>{% endfor %}</tr>
+          <tr><td></td>{% for p in products %}<td>
+            <form method="post" action="{% url 'shop:cart_add' p.id %}" class="add-to-cart-form">
+              {% csrf_token %}<button class="btn btn-primary" type="submit">Add to cart</button>
+            </form>
+            <button class="remove-link" data-compare-toggle data-url="{% url 'shop:compare_toggle' p.id %}" style="margin-top:8px;">Remove</button>
+          </td>{% endfor %}</tr>
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>Nothing to compare yet.</p>
+      <p style="margin-top:8px;"><a href="{% url 'shop:shop' %}" style="color:var(--blue-bright);">Browse devices →</a></p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

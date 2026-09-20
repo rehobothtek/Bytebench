@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Pay for your order — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:520px;">
+    <div class="diag-panel">
+      <div class="diag-head">
+        <span class="ticket">ORDER <b>#{{ order.id }}</b></span>
+        {# Decorative: payment state is spelled out in the list below. #}
+        <span class="led warn" aria-hidden="true"></span>
+      </div>
+      <p style="font-size:15px; margin-bottom:16px;">Almost done, {{ order.customer_name }} — complete payment to finish your order.</p>
+      <div class="diag-list" style="margin-bottom:20px;">
+        {% for item in order.items.all %}
+        <div class="diag-item"><span class="led ok"></span>{{ item.product_name }} x{{ item.quantity }}<span class="status-txt">₦{{ item.subtotal|floatformat:0 }}</span></div>
+        {% endfor %}
+      </div>
+      <div style="font-family:var(--mono); font-size:20px; font-weight:700; color:var(--blue-bright); margin-bottom:20px; text-align:center;">
+        ₦{{ order.total|floatformat:0 }}
+      </div>
+      {% if paystack_configured %}
+      <button id="payButton" class="btn btn-primary btn-block">Pay now with card, bank or USSD →</button>
+      <p id="payStatus" style="color:var(--text-dim); font-size:12.5px; margin-top:12px; text-align:center;"></p>
+      {% else %}
+      <div class="ticket-box" style="border-color:var(--warn); color:var(--warn); text-align:center;">
+        Online payment isn't set up yet — add your real Paystack keys in <code>config/settings.py</code> (see the README) to enable this button.
+      </div>
+      {% endif %}
+    </div>
+    <p style="color:var(--text-dim); font-size:13px; margin-top:16px; text-align:center;">
+      Prefer not to pay online? <a href="{% url 'shop:contact' %}" style="color:var(--blue-bright);">Contact us</a> to arrange payment on delivery instead.
+    </p>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% if paystack_configured %}
+<script src="https://js.paystack.co/v2/inline.js"></script>
+<script>
+  const paystack = new PaystackPop();
+  const payButton = document.getElementById('payButton');
+  const payStatus = document.getElementById('payStatus');
+
+  payButton.addEventListener('click', function () {
+    payButton.disabled = true;
+    payButton.textContent = 'Opening secure payment...';
+    payStatus.textContent = '';
+
+    paystack.newTransaction({
+      key: '{{ paystack_public_key }}',
+      email: '{{ order.email|escapejs }}',
+      amount: {{ amount_kobo }},
+      currency: 'NGN',
+      reference: '{{ order.payment_reference|escapejs }}',
+      onSuccess: function (transaction) {
+        payStatus.textContent = 'Payment received — confirming...';
+        window.location.href = "{% url 'shop:verify_payment' order.id order.access_token %}?reference=" + encodeURIComponent(transaction.reference);
+      },
+      onCancel: function () {
+        payButton.disabled = false;
+        payButton.textContent = 'Pay now with card, bank or USSD →';
+        payStatus.textContent = 'Payment cancelled — you can try again any time.';
+      },
+      onError: function (error) {
+        payButton.disabled = false;
+        payButton.textContent = 'Pay now with card, bank or USSD →';
+        payStatus.textContent = 'Something went wrong: ' + error.message;
+      }
+    });
+  });
+</script>
+{% endif %}
+{% endblock %}
