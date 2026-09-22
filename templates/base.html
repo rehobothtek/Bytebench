@@ -39,7 +39,7 @@
   <div class="nav wrap">
     <a class="logo" href="{% url 'shop:home' %}">
       <img src="{% static 'images/logo-mark-256.png' %}" alt="RehoBothTek logo">
-      {{ SITE_NAME }}
+      <span class="logo-name">{{ SITE_NAME }}</span>
     </a>
     <nav class="navlinks">
       <a href="{% url 'shop:shop' %}">Shop</a>
@@ -62,7 +62,7 @@
     <div class="nav-right">
       <a class="icon-btn" href="{% url 'shop:compare_detail' %}" aria-label="Compare list">⇄<span class="cart-count" id="compareCount">{{ compare_count }}</span></a>
       <a class="icon-btn" href="{% url 'shop:wishlist_detail' %}" aria-label="Wishlist">♥<span class="cart-count" id="wishlistCount">{{ wishlist_count }}</span></a>
-      <a class="cart-btn" href="{% url 'shop:cart_detail' %}">🛒 Cart <span class="cart-count" id="cartCount">{{ cart_count }}</span></a>
+      <a class="cart-btn" href="{% url 'shop:cart_detail' %}"><span>🛒</span><span class="cart-label">Cart</span><span class="cart-count" id="cartCount">{{ cart_count }}</span></a>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>

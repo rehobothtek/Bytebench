@@ -345,6 +345,63 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 
+class WishlistItem(models.Model):
+    """A product saved to a logged-in customer's wishlist.
+
+    Guests keep their wishlist in the session (see shop/session_lists.py). This
+    is what lets an account holder's saved items survive logging out — which a
+    session-backed list cannot do, because django.contrib.auth.logout() flushes
+    the entire session.
+
+    A deleted product takes its rows with it (CASCADE), matching CartItem: a
+    saved line for something that no longer exists is not worth preserving.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='wishlist_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+        related_name='wishlisted_by')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Added order. This is the order the list is displayed and read back
+        # in, and mirrors the insertion order the session-backed version got
+        # for free from its dict.
+        ordering = ['added_at', 'id']
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'],
+                name='unique_wishlist_item_per_user_and_product'),
+        ]
+
+    def __str__(self):
+        return f'{self.product} — {self.user.get_username()}'
+
+
+class CompareItem(models.Model):
+    """A product on a logged-in customer's compare list.
+
+    Deliberately the same shape as WishlistItem rather than one model with a
+    kind flag: the compare list is capped at 4 and evicts its oldest entry,
+    which is real behaviour the wishlist does not have.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='compare_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+        related_name='compared_by')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # See WishlistItem: added order is what makes "the oldest entry" mean
+        # the same thing here as it did in the session-backed version.
+        ordering = ['added_at', 'id']
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'],
+                name='unique_compare_item_per_user_and_product'),
+        ]
+
+    def __str__(self):
+        return f'{self.product} — {self.user.get_username()}'
+
+
 class ContactMessage(models.Model):
     name = models.CharField(max_length=150)
     email = models.EmailField(blank=True)

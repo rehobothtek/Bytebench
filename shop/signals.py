@@ -11,6 +11,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 
 from .cart import merge_session_cart_into_account
+from .session_lists import merge_session_lists_into_account
 
 
 @receiver(user_logged_in)
@@ -41,3 +42,20 @@ def transfer_guest_cart(sender, request, user, **kwargs):
             f'couldn\'t be moved because {"it is" if result["skipped"] == 1 else "they are"} no longer available.',
             fail_silently=True,
         )
+
+
+@receiver(user_logged_in)
+def transfer_guest_lists(sender, request, user, **kwargs):
+    """Move the visitor's guest wishlist and compare list into their account.
+
+    Silently, unlike the cart transfer above: the cart messages earn their
+    place because quantities are combined and something can be trimmed or
+    refused, whereas these are set unions — the customer's lists are either
+    there or not, and there is nothing they would need to act on. Adding a
+    message here would also mean every login announced something the customer
+    already expected.
+    """
+    if request is None:
+        return
+
+    merge_session_lists_into_account(request, user)

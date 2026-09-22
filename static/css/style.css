@@ -112,8 +112,14 @@ header{position:sticky; top:0; z-index:50; background:rgba(10,15,28,.92); backdr
 .diag-head .ticket{font-size:12px; color:var(--text-dim);}
 .diag-head .ticket b{color:var(--text);}
 .diag-list{display:flex; flex-direction:column; gap:10px;}
-.diag-item{display:flex; align-items:center; gap:10px; font-size:13px;}
+.diag-item{display:flex; align-items:center; gap:10px; font-size:13px; min-width:0;}
 .diag-item .status-txt{margin-left:auto; color:var(--text-dim); font-size:11.5px; text-transform:uppercase; letter-spacing:.06em;}
+/* A diagnostic row prints a product or device name, which can be one long
+   unbroken word. Flex items default to a content-based minimum width, so
+   without this the row refuses to shrink and pushes the panel wider than the
+   screen. The status text is left out so it stays on one line next to the
+   ellipsis-free name. */
+.diag-item > :not(.led):not(.status-txt){min-width:0; overflow-wrap:anywhere;}
 
 .section{padding:72px 0;}
 .section-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:36px; gap:24px; flex-wrap:wrap;}
@@ -419,6 +425,7 @@ body.has-sticky-bar .whatsapp-float{bottom:104px;}
 .payment-choice-option input{accent-color:var(--blue); width:16px; height:16px;}
 .ticket-box{background:#080c16; border:1px dashed var(--line); border-radius:10px; padding:18px; font-family:var(--mono); font-size:12.5px; color:var(--text-dim); margin-bottom:20px;}
 .ticket-box .line{display:flex; justify-content:space-between; padding:4px 0;}
+.ticket-box .line span{overflow-wrap:anywhere; min-width:0;}
 .ticket-box .line b{color:var(--text);}
 
 .messages{list-style:none; margin-bottom:24px;}
@@ -536,6 +543,11 @@ footer{border-top:1px solid var(--line); padding:56px 0 32px; margin-top:40px;}
 @media (max-width:880px){
   .navlinks{display:none;}
   .menu-toggle{display:flex;}
+  /* The links are gone, so the bar only has to hold the logo and the four
+     buttons on the right. Tightening the padding and the gap is what stops
+     the header from being wider than the screen. */
+  .nav{gap:10px; padding:12px 16px;}
+  .logo{font-size:15px;}
   .hero-grid{grid-template-columns:1fr;}
   .hero h1{font-size:34px;}
   .cat-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -561,8 +573,17 @@ footer{border-top:1px solid var(--line); padding:56px 0 32px; margin-top:40px;}
   .grid, .cat-strip, .testimonial-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .foot-grid{grid-template-columns:1fr;}
   .section-head{flex-direction:column; align-items:flex-start;}
+  /* 32px of padding leaves a 320px screen about 208px for the fields. */
+  .panel-box{padding:22px 18px;}
+  .teaser-banner{padding:22px 18px;}
+  /* .search-form is already width:100%, but .search-wrap is an auto-width flex
+     item, so it never had a full-width box to fill. */
+  .search-wrap{flex:1 1 100%;}
   .search-form{width:100%;}
   .search-form input{flex:1; width:auto;}
+  /* The toast and the WhatsApp bubble are both pinned bottom-centre-right;
+     at this width the toast reaches across the bubble. */
+  .toast{bottom:92px;}
   .sticky-add-inner{flex-wrap:wrap;}
   /* If the sticky bar wraps to two lines, keep the WhatsApp bubble above it. */
   body.has-sticky-bar .whatsapp-float{bottom:132px;}
@@ -571,6 +592,25 @@ footer{border-top:1px solid var(--line); padding:56px 0 32px; margin-top:40px;}
 /* Small phones: one column, so a card is never squeezed into ~140px. */
 @media (max-width:420px){
   .grid, .cat-strip, .testimonial-grid{grid-template-columns:1fr;}
+  /* Longhand, not the shorthand: <div class="nav wrap"> carries both classes,
+     and .nav sets its own padding:12px 16px further up the file with the same
+     specificity. A `padding:0 16px` shorthand here would come later and so
+     would wipe out the header's vertical padding, flattening the bar. */
+  .wrap{padding-left:16px; padding-right:16px;}
+  /* Only the words go. They stay in the link's accessible name — the button is
+     still announced as "Cart, 3" rather than as a bare number — but they stop
+     taking up width, leaving the trolley icon and the badge visible. */
+  .cart-btn .cart-label{
+    position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+    overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+  }
+}
+
+/* Narrowest phones: the wordmark is dropped too, at the point where the logo
+   mark, the two list buttons, the cart and the menu button together need the
+   whole bar. The mark's alt text carries the name on its own. */
+@media (max-width:360px){
+  .logo-name{display:none;}
 }
 
 /* --- Reduced motion ----------------------------------------------------------

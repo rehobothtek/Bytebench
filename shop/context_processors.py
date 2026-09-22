@@ -2,7 +2,7 @@ from django.conf import settings
 from django.templatetags.static import static
 
 from .cart import count_cart_items
-from .session_lists import Wishlist, CompareList
+from .session_lists import get_wishlist, get_compare
 
 SITE_LOGO = 'images/logo-mark-256.png'
 
@@ -64,8 +64,8 @@ def _site_jsonld(request):
 def site_info(request):
     return {
         'cart_count': count_cart_items(request),
-        'wishlist_count': Wishlist(request).count(),
-        'compare_count': CompareList(request).count(),
+        'wishlist_count': get_wishlist(request).count(),
+        'compare_count': get_compare(request).count(),
         'WHATSAPP_NUMBER': settings.WHATSAPP_NUMBER,
         'SITE_NAME': settings.SITE_NAME,
         'SITE_TAGLINE': settings.SITE_TAGLINE,

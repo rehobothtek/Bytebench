@@ -5,7 +5,7 @@ from django.utils.html import format_html
 
 from .models import (
     Product, RepairType, RepairBooking, Order, OrderItem, ContactMessage,
-    Review, Testimonial, FAQ, CustomerProfile, CartItem,
+    Review, Testimonial, FAQ, CustomerProfile, CartItem, WishlistItem, CompareItem,
 )
 
 # Admin activity is logged under the app's own logger (see LOGGING in
@@ -305,6 +305,27 @@ class CartItemAdmin(admin.ModelAdmin):
     def subtotal_display(self, obj):
         return f'₦{obj.subtotal():.0f}'
     subtotal_display.short_description = 'Basket value'
+
+
+@admin.register(WishlistItem)
+class WishlistItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'added_at')
+    search_fields = ('user__username', 'user__email', 'product__name')
+    readonly_fields = ('added_at',)
+    # Two foreign keys are printed per row, so both joins are needed.
+    list_select_related = ('user', 'product')
+    ordering = ('-added_at',)
+    # No bulk actions and nothing editable, for the same reason CartItemAdmin
+    # has none: this list belongs to the customer, not to us.
+
+
+@admin.register(CompareItem)
+class CompareItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'added_at')
+    search_fields = ('user__username', 'user__email', 'product__name')
+    readonly_fields = ('added_at',)
+    list_select_related = ('user', 'product')
+    ordering = ('-added_at',)
 
 
 @admin.register(ContactMessage)

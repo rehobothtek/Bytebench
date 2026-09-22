@@ -15,7 +15,7 @@ from .models import (Product, RepairType, Order, OrderItem, RepairBooking, Conta
 from .forms import (RepairBookingForm, CheckoutForm, ContactForm, TrackForm, ReviewForm,
                     RegisterForm, CustomerProfileForm)
 from .cart import get_cart
-from .session_lists import Wishlist, CompareList
+from .session_lists import get_wishlist, get_compare
 from .notifications import notify_new_order, notify_new_repair_booking, notify_new_contact_message, notify_oversold_order
 from .paystack import verify_transaction, PaystackVerificationError
 import re
@@ -31,8 +31,8 @@ def whatsapp_link(message: str) -> str:
 
 def _card_context(request):
     return {
-        'wishlist_ids': {int(pid) for pid in Wishlist(request).ids.keys()},
-        'compare_ids': {int(pid) for pid in CompareList(request).ids.keys()},
+        'wishlist_ids': {int(pid) for pid in get_wishlist(request).ids.keys()},
+        'compare_ids': {int(pid) for pid in get_compare(request).ids.keys()},
     }
 
 
@@ -162,8 +162,8 @@ def product_detail(request, product_id):
     return render(request, 'shop/product_detail.html', {
         'product': product, 'related': related, 'recently_viewed': recently_viewed,
         'reviews': product.approved_reviews(), 'review_form': form,
-        'in_wishlist': Wishlist(request).contains(product.id),
-        'in_compare': CompareList(request).contains(product.id),
+        'in_wishlist': get_wishlist(request).contains(product.id),
+        'in_compare': get_compare(request).contains(product.id),
         'product_jsonld': _product_jsonld(request, product),
         **_card_context(request),
     })
@@ -174,7 +174,7 @@ def product_detail(request, product_id):
 @require_POST
 def wishlist_toggle(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    wishlist = Wishlist(request)
+    wishlist = get_wishlist(request)
     added = wishlist.toggle(product_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'ok': True, 'added': added, 'wishlist_count': wishlist.count()})
@@ -183,7 +183,7 @@ def wishlist_toggle(request, product_id):
 
 
 def wishlist_detail(request):
-    wishlist = Wishlist(request)
+    wishlist = get_wishlist(request)
     return render(request, 'shop/wishlist.html', {'products': wishlist.products(), **_card_context(request)})
 
 
@@ -192,7 +192,7 @@ def wishlist_detail(request):
 @require_POST
 def compare_toggle(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    compare = CompareList(request)
+    compare = get_compare(request)
     added = compare.toggle(product_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'ok': True, 'added': added, 'compare_count': compare.count()})
@@ -201,7 +201,7 @@ def compare_toggle(request, product_id):
 
 
 def compare_detail(request):
-    compare = CompareList(request)
+    compare = get_compare(request)
     return render(request, 'shop/compare.html', {'products': compare.products(), **_card_context(request)})
 
 
